@@ -4,6 +4,24 @@ Projeto de estudo fornecido pelo professor com código parcialmente implementado
 
 ---
 
+## Organização do repositório
+
+Todos os arquivos de código ficam na raiz do projeto — estrutura plana intencional. Para ~10 arquivos `.c`/`.h`, isso é o padrão em projetos C acadêmicos: criar subpastas (`src/`, `include/`) exigiria mudar todos os `#include` e adicionar flags `-I` na compilação, sem ganho real neste tamanho.
+
+Arquivos gerados (`grafos.exe`, `grafo.dot`, `grafo.png`) são ignorados pelo git via `.gitignore`.
+
+```
+Aula 5/
+├── main.c              ← ponto de entrada
+├── IACODES.h / .c      ← utilitários de I/O + Graphviz
+├── GrafosGrafica.h/.c  ← implementação com ponteiros (completa)
+├── GrafosLista.h/.c    ← implementação com lista encadeada (pendente)
+├── GrafosMatriz.h/.c   ← implementação com matriz (pendente)
+├── .gitignore          ← exclui binários e arquivos gerados
+├── DOCS/               ← documentação complementar
+└── todo_1.txt          ← tarefas pendentes
+```
+
 ## Estrutura de arquivos
 
 | Arquivo | Papel |
@@ -13,7 +31,7 @@ Projeto de estudo fornecido pelo professor com código parcialmente implementado
 | `GrafosGrafica.h / .c` | Implementação **completa** — listas de adjacência com ponteiros diretos |
 | `GrafosLista.h / .c` | Implementação **pendente** — lista encadeada de adjacência |
 | `GrafosMatriz.h / .c` | Implementação **pendente** — matriz de adjacência |
-| `todo.txt` | Tarefas a completar |
+| `todo_1.txt` | Tarefas a completar |
 
 ---
 
