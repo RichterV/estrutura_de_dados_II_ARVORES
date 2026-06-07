@@ -38,7 +38,6 @@ float IA_lerDecimal(const char *mensagem){
 void IA_lerTexto(char *variavel, int tamanho, const char *mensagem){
     // GERADO POR IA
     // Função genérica para leitura de textos longos
-    while(getchar() != '\n'); //adicionei para limpar buffer de leitura da string
     printf("%s", mensagem);
     fgets(variavel, tamanho, stdin);
     variavel[strcspn(variavel, "\n")] = '\0';

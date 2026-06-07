@@ -25,7 +25,7 @@ typedef enum {EH_PONDERADO, NAO_EH_PONDERADO} PONDERACAO; // informa se o grafo 
 int UNICID = 0;
 GRAFOMETODO GRAFMET = INVALIDO;
 DIRECAO QUALDIRECAO = NAO_EH_DIRIGIDO;
-PONDERACAO QUALPONDERACAO = EH_PONDERADO;
+PONDERACAO QUALPONDERACAO = NAO_EH_PONDERADO;
 
 // SÉRIE DE FUNÇÕES PRÁTICAS
 int 
@@ -39,6 +39,7 @@ MENU(){ /* MOSTRA O MENU PARA O USUÁRIO */
             printf("[3] Grafo com matriz de adjacência\n");
             printf("Opte apenas por [1], [2] ou [3]: ");
             scanf("%d", &opcao);
+            while(getchar() != '\n'); // limpar buffer após scanf
             if(opcao < 1 || opcao > 3){
                 printf("Valor inválido digitado\n");
                 continue;
@@ -46,7 +47,7 @@ MENU(){ /* MOSTRA O MENU PARA O USUÁRIO */
         }
         else{
             printf("Por favor, escolha uma opção:\n");
-            
+
             printf("[1] Adicionar Vértice\n");
             printf("[2] Adicionar Aresta\n");
             printf("[3] Remover Aresta\n");
@@ -56,6 +57,7 @@ MENU(){ /* MOSTRA O MENU PARA O USUÁRIO */
             printf("[0] SAIR\n");
             printf("Opte apenas por [1], [2], [3], [4], [5], [6] ou [0]: ");
             scanf("%d", &opcao);
+            while(getchar() != '\n'); // limpar buffer após scanf
             if(opcao < 0 || opcao > 6){
                 printf("Valor inválido digitado\n");
                 continue;
@@ -71,8 +73,7 @@ MENU(){ /* MOSTRA O MENU PARA O USUÁRIO */
 void pausa() { /* FAZ O CÓDIGO DAR UMA PAUSA PARA MOSTRAR MENSAGEM BONITA AO UDUÁRIO */
     //Essa função serve apenas para que o menu não seja executado direto
     printf("Aperte a tecla ENTER para continuar...");
-    while (getchar() != '\n'); // limpar buffer
-    //getchar();
+    getchar(); // aguarda o Enter do usuário (buffer já foi limpo após cada scanf)
     system("cls"); // limpa o terminal no Windows
 }
 
@@ -294,6 +295,26 @@ int main(){
                 GRAFMET = MATRIZ;
                 printf("Aplicando sistema de grafos com matriz de adjacência...\n");
             }
+
+            // pergunta se o grafo é ponderado
+            int resp;
+            do {
+                printf("O grafo é ponderado (possui pesos nas arestas)?\n");
+                printf("[1] Sim\n[2] Não\nEscolha: ");
+                scanf("%d", &resp);
+                while(getchar() != '\n'); // limpar buffer após scanf
+            } while(resp != 1 && resp != 2);
+            QUALPONDERACAO = (resp == 1) ? EH_PONDERADO : NAO_EH_PONDERADO;
+
+            // pergunta se o grafo é dirigido
+            do {
+                printf("O grafo é dirigido (as arestas têm sentido)?\n");
+                printf("[1] Sim\n[2] Não\nEscolha: ");
+                scanf("%d", &resp);
+                while(getchar() != '\n'); // limpar buffer após scanf
+            } while(resp != 1 && resp != 2);
+            QUALDIRECAO = (resp == 1) ? EH_DIRIGIDO : NAO_EH_DIRIGIDO;
+
             inicializarGrafo();
         }
         else{

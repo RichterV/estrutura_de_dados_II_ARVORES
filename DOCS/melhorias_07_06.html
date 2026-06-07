@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melhorias — 07/06/2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #cdd9e5;
+      background: #0d1117;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 2.5rem 3rem;
+    }
+
+    /* ── Tipografia ── */
+    h1 { font-size: 2rem;   border-bottom: 2px solid #388bfd; padding-bottom: .4rem; margin-bottom: 1.5rem; color: #58a6ff; }
+    h2 { font-size: 1.4rem; border-bottom: 1px solid #30363d; padding-bottom: .3rem; margin: 2.2rem 0 1rem; color: #e6edf3; }
+    h3 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; color: #e6edf3; }
+    h4 { font-size: 1rem;   margin: 1.4rem 0 .4rem; color: #cdd9e5; }
+
+    p  { margin: .7rem 0; }
+    ul, ol { margin: .6rem 0 .6rem 1.6rem; }
+    li { margin: .25rem 0; }
+
+    strong { font-weight: 600; color: #e6edf3; }
+
+    hr {
+      border: none;
+      border-top: 1px solid #30363d;
+      margin: 2rem 0;
+    }
+
+    /* ── Código inline ── */
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: .85em;
+      background: #1f2937;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      padding: .1em .4em;
+      color: #79c0ff;
+    }
+
+    /* ── Bloco de código ── */
+    pre {
+      background: #0d1117;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      overflow-x: auto;
+      margin: .8rem 0 1.2rem;
+      font-size: .85rem;
+      line-height: 1.6;
+    }
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: inherit;
+      color: #e6edf3;
+    }
+
+    /* ── Tabelas ── */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+      font-size: .9rem;
+    }
+    th, td {
+      border: 1px solid #30363d;
+      padding: .5rem .9rem;
+      text-align: left;
+    }
+    th {
+      background: #1f2937;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    tr:nth-child(even) td { background: #1a2030; }
+
+    /* ── Badge de atividade ── */
+    .activity-badge {
+      display: inline-block;
+      background: #1f6feb;
+      color: #e6edf3;
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .6rem;
+      border-radius: 12px;
+      margin-right: .5rem;
+      vertical-align: middle;
+    }
+
+    /* ── Nota de rodapé ── */
+    .footer {
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #30363d;
+      font-size: .8rem;
+      color: #8b949e;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Melhorias — 07/06/2026</h1>
+
+  <!-- ═══════════════════════════════════════════════════ ATIVIDADE 1 -->
+  <h2><span class="activity-badge">Atividade 1</span> Pesos às arestas (GrafosLista)</h2>
+
+  <h3>O que foi feito</h3>
+  <p>Implementação completa de <code>GrafosLista.c</code>, com suporte a pesos nas arestas.
+  Antes desta data, todas as funções do arquivo retornavam apenas <code>"Função Não Implementada"</code>.</p>
+
+  <hr>
+
+  <h3>Estrutura de dados utilizada</h3>
+  <p>O grafo é representado por um vetor global de ponteiros <code>vertices[100]</code>, onde cada posição aponta para
+  um nó <code>GrafoL</code> que representa um vértice. O campo <code>proximo</code> de cada vértice é o início de sua
+  <strong>lista encadeada de adjacência</strong> — os nós dessa lista são também do tipo <code>GrafoL</code> e
+  armazenam o <code>id</code> do vizinho e o <code>peso</code> da aresta.</p>
+
+<pre><code>vertices[0] → { id=0, nome="A" } → { id=1, peso=2.5 } → { id=2, peso=1.0 } → NULL
+vertices[1] → { id=1, nome="B" } → { id=0, peso=2.5 } → NULL
+vertices[2] → { id=2, nome="C" } → { id=0, peso=1.0 } → NULL</code></pre>
+
+  <p>O struct <code>GrafoL</code> (definido em <code>GrafosLista.h</code>) já possuía o campo <code>peso</code>:</p>
+
+<pre><code>typedef struct GrafoL {
+    int id;
+    struct GrafoL* proximo;  // próximo nó na lista encadeada
+    float peso;              // peso da aresta (usado nos nós de adjacência)
+    char nome[100];          // nome do vértice (usado nos nós-vértice)
+} GrafoL;</code></pre>
+
+  <hr>
+
+  <h3>Funções implementadas</h3>
+
+  <h4><code>inicializarGrafoLista(int eh_ponderado, int eh_dirigido)</code></h4>
+  <p>Zera o vetor <code>vertices[100]</code> e salva as flags que indicam se o grafo é ponderado e/ou dirigido. Essas flags controlam o comportamento das demais funções.</p>
+
+  <h4><code>adicionarVerticeLista(int id, char* texto)</code></h4>
+  <p>Aloca um novo <code>GrafoL</code> na memória heap, preenche <code>id</code> e <code>nome</code>, define <code>peso = 0.0</code> e <code>proximo = NULL</code>, e o insere em <code>vertices[QUANTIDADE_VERTICES]</code>.</p>
+
+  <h4><code>adicionarArestaLista(int inicio, int fim, float peso)</code></h4>
+  <ul>
+    <li>Localiza os nós-vértice de <code>inicio</code> e <code>fim</code> no vetor <code>vertices</code>.</li>
+    <li>Aloca um nó de adjacência com <code>id = fim</code> e <code>peso = peso</code>, e o encadeia no final da lista de <code>inicio</code>.</li>
+    <li>Se o grafo <strong>não for dirigido</strong>, faz o mesmo no sentido inverso (<code>fim → inicio</code>), também com o mesmo <code>peso</code>.</li>
+    <li>Se o grafo <strong>for ponderado</strong>, exibe o peso na mensagem de confirmação.</li>
+  </ul>
+
+  <h4><code>removerArestaLista(int inicio, int fim)</code></h4>
+  <ul>
+    <li>Percorre a lista de adjacência de <code>inicio</code> procurando um nó com <code>id == fim</code>.</li>
+    <li>Ao encontrar, reconecta os ponteiros ao redor do nó e libera sua memória com <code>free</code>.</li>
+    <li>Se não for dirigido, repete o processo na lista de <code>fim</code> procurando <code>inicio</code>.</li>
+  </ul>
+
+  <h4><code>removerVerticeLista(int id)</code></h4>
+  <ol>
+    <li>Remove, na lista de adjacência de cada outro vértice, qualquer nó que aponte para <code>id</code>.</li>
+    <li>Percorre e libera com <code>free</code> toda a lista de adjacência do próprio vértice.</li>
+    <li>Libera o nó-vértice.</li>
+    <li>Desloca o vetor <code>vertices</code> para preencher o espaço vago (shift).</li>
+  </ol>
+
+  <h4><code>mostrarGrafoLista()</code></h4>
+  <p>Percorre <code>vertices</code> e, para cada vértice, imprime sua lista de adjacência no formato:</p>
+<pre><code>[id] nome -> nome_viz[viz_id](peso) -> NULL   (ponderado)
+[id] nome -> nome_viz[viz_id] -> NULL          (não ponderado)</code></pre>
+  <p>O peso só aparece quando o grafo foi inicializado como ponderado.</p>
+
+  <h4><code>descobrirCaminhoLista(int inicio, int fim)</code></h4>
+  <p>Executa uma <strong>busca em profundidade (DFS)</strong> recursiva. Usa um vetor <code>visitados[200]</code> indexado por ID para evitar ciclos. Exibe cada vértice visitado durante o caminho e informa se o destino foi alcançado ou não.</p>
+
+  <h4><code>existeVerticeLista(int id)</code> / <code>obterListaIDDosVerticesLista(int* lista)</code></h4>
+  <p>Auxiliares usadas pelo <code>main.c</code> para verificar existência de vértices e listar IDs disponíveis no menu.</p>
+
+  <hr>
+
+  <h3>Como o peso é armazenado</h3>
+  <p>O peso fica salvo <strong>no nó de adjacência</strong>, não no vértice. Ou seja, cada aresta carrega seu próprio peso independentemente. Para grafos não ponderados, o campo <code>peso</code> existe na memória mas é ignorado na exibição e na inicialização recebe <code>0.0</code>.</p>
+
+  <h3>Como o menu usa os pesos</h3>
+  <p>O controle de quando pedir o peso ao usuário já estava no <code>main.c</code> (função <code>adicionarAresta</code>):</p>
+<pre><code>float peso = 0.0;
+if(QUALPONDERACAO == EH_PONDERADO){
+    peso = IA_lerDecimal("Diga qual o peso a ser adicionado na aresta:");
+}
+adicionarArestaLista(inicio, fim, peso);</code></pre>
+  <p>O valor é sempre passado para <code>adicionarArestaLista</code> — se não for ponderado, chega como <code>0.0</code> e é armazenado mas não exibido.</p>
+
+  <hr>
+
+  <h3>Outras alterações em <code>main.c</code></h3>
+
+  <h4>Limpeza de tela real (<code>main.c</code>, função <code>pausa</code>)</h4>
+  <p>A função <code>pausa()</code> usava 20 quebras de linha para simular uma nova página. Substituído por <code>system("cls")</code> para limpar o terminal de fato no Windows:</p>
+<pre><code>// antes
+printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+// depois
+system("cls");</code></pre>
+
+  <hr>
+
+  <!-- ═══════════════════════════════════════════════════ ATIVIDADE 2 -->
+  <h2><span class="activity-badge">Atividade 2</span> Opção [2] Grafo com lista de adjacência totalmente funcional</h2>
+
+  <h3>O que foi feito</h3>
+  <p>A opção <code>[2] Grafo com lista de adjacência</code> já aparecia no menu desde o início, mas quatro problemas impediam o funcionamento completo:</p>
+  <ol>
+    <li>As configurações de ponderado/dirigido ficavam fixas no código-fonte — o usuário não podia escolher pelo menu.</li>
+    <li>O <code>scanf</code> no <code>MENU()</code> deixava <code>\n</code> no buffer, fazendo <code>pausa()</code> limpar a tela sem esperar o Enter do usuário.</li>
+    <li><code>IA_lerTexto</code> tinha um <code>while(getchar() != '\n')</code> extra que bloqueava aguardando um Enter desnecessário.</li>
+    <li>O <code>mostrarGrafoLista</code> exibia apenas o índice do vizinho, sem o nome.</li>
+  </ol>
+
+  <hr>
+
+  <h3>Alteração 1 — Sub-menu de configuração (<code>main.c</code>)</h3>
+  <p>Adicionado logo após o usuário escolher o método, antes de chamar <code>inicializarGrafo()</code>:</p>
+<pre><code>// pergunta se o grafo é ponderado
+int resp;
+do {
+    printf("O grafo é ponderado (possui pesos nas arestas)?\n");
+    printf("[1] Sim\n[2] Não\nEscolha: ");
+    scanf("%d", &amp;resp);
+    while(getchar() != '\n'); // limpar buffer após scanf
+} while(resp != 1 &amp;&amp; resp != 2);
+QUALPONDERACAO = (resp == 1) ? EH_PONDERADO : NAO_EH_PONDERADO;
+
+// pergunta se o grafo é dirigido
+do {
+    printf("O grafo é dirigido (as arestas têm sentido)?\n");
+    printf("[1] Sim\n[2] Não\nEscolha: ");
+    scanf("%d", &amp;resp);
+    while(getchar() != '\n'); // limpar buffer após scanf
+} while(resp != 1 &amp;&amp; resp != 2);
+QUALDIRECAO = (resp == 1) ? EH_DIRIGIDO : NAO_EH_DIRIGIDO;</code></pre>
+
+  <p>Fluxo resultante:</p>
+<pre><code>Escolha um método: [1] [2] [3]  →  [2] selecionado
+O grafo é ponderado? [1] Sim  [2] Não
+O grafo é dirigido?  [1] Sim  [2] Não
+→ Menu principal</code></pre>
+
+  <hr>
+
+  <h3>Alteração 2 — Correção do buffer de entrada (<code>main.c</code> e <code>IACODES.c</code>)</h3>
+  <p><strong>Problema:</strong> <code>scanf("%d")</code> deixa o <code>\n</code> no buffer. O <code>pausa()</code> consumia esse <code>\n</code> com <code>while(getchar() != '\n')</code> e limpava a tela imediatamente, sem esperar o Enter — o grafo aparecia e sumia na hora.</p>
+  <p><strong>Solução:</strong> separar as responsabilidades.</p>
+  <p>Em <code>MENU()</code>, limpar o buffer logo após cada <code>scanf</code>:</p>
+<pre><code>scanf("%d", &amp;opcao);
+while(getchar() != '\n'); // limpar buffer após scanf</code></pre>
+  <p>Em <code>pausa()</code>, apenas aguardar o Enter (buffer já está limpo):</p>
+<pre><code>// antes
+while (getchar() != '\n'); // consumia o \n do scanf e encerrava imediatamente
+
+// depois
+getchar(); // aguarda o Enter do usuário</code></pre>
+  <p>Em <code>IACODES.c</code>, removido o <code>while(getchar() != '\n')</code> do início de <code>IA_lerTexto</code>:</p>
+<pre><code>// antes
+while(getchar() != '\n'); // limpeza desnecessária após a correção no MENU
+printf("%s", mensagem);
+
+// depois
+printf("%s", mensagem); // buffer já limpo, leitura direta</code></pre>
+
+  <hr>
+
+  <h3>Alteração 3 — Exibição do nome do vizinho em <code>mostrarGrafoLista</code></h3>
+  <p>Os nós de adjacência já armazenavam o <code>nome</code> do vizinho (copiado em <code>adicionarArestaLista</code>). O formato de exibição foi atualizado para incluí-lo:</p>
+<pre><code>// antes
+printf(" [%d](%.2f)", adj-&gt;id, adj-&gt;peso);
+
+// depois
+printf(" %s[%d](%.2f)", adj-&gt;nome, adj-&gt;id, adj-&gt;peso);</code></pre>
+  <p>Saída resultante:</p>
+<pre><code>=== Grafo (Lista de Adjacência) ===
+[0] A -> B[1](2.00) C[2](5.00) NULL
+[1] B -> C[2](6.00) NULL
+[2] C -> NULL</code></pre>
+
+  <hr>
+
+  <h3>Comportamento final da opção [2]</h3>
+  <table>
+    <thead><tr><th>Configuração</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td>Ponderado = Sim</td><td>Menu pede o peso ao adicionar aresta; peso exibido no <code>mostrarGrafoLista</code></td></tr>
+      <tr><td>Ponderado = Não</td><td>Peso ignorado; arestas exibidas sem valor</td></tr>
+      <tr><td>Dirigido = Sim</td><td>Aresta adicionada apenas no sentido <code>inicio → fim</code></td></tr>
+      <tr><td>Dirigido = Não</td><td>Aresta adicionada nos dois sentidos (<code>inicio ↔ fim</code>)</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <!-- ═══════════════════════════════════════════════════ ATIVIDADE 3 -->
+  <h2><span class="activity-badge">Atividade 3</span> Opção [3] Grafo com matriz de adjacência</h2>
+
+  <h3>O que foi feito</h3>
+  <p>Implementação completa de <code>GrafosMatriz.c</code>. Antes desta data, todas as funções retornavam apenas <code>"Função Não Implementada"</code>.</p>
+
+  <hr>
+
+  <h3>Estrutura de dados utilizada</h3>
+  <p>O grafo é representado por dois elementos globais:</p>
+  <ul>
+    <li><code>GrafoM vertices[100]</code> — vetor de vértices, cada um com <code>id</code> e <code>nome</code></li>
+    <li><code>float matriz[100][100]</code> — matriz de adjacência onde a linha <code>i</code> e coluna <code>j</code> correspondem aos vértices nas posições <code>i</code> e <code>j</code> do vetor</li>
+  </ul>
+  <p>Sentinela: <code>matriz[i][j] = -1.0</code> significa <strong>sem aresta</strong>. Qualquer valor <code>≥ 0.0</code> indica aresta existente.</p>
+<pre><code>Vértices: [0]=A  [1]=B  [2]=C
+
+         A     B     C
+    A [  -1   2.0   5.0 ]   → A→B(2.0), A→C(5.0)
+    B [  -1   -1   6.0  ]   → B→C(6.0)
+    C [  -1   -1   -1   ]   → sem arestas</code></pre>
+  <p>Para grafos <strong>não ponderados</strong>, armazena <code>1.0</code> em vez do peso (para distinguir "aresta existe" de "sem aresta").</p>
+
+  <hr>
+
+  <h3>Funções implementadas</h3>
+
+  <h4><code>inicializarGrafoMatriz(int eh_ponderado, int eh_dirigido)</code></h4>
+  <p>Preenche toda a <code>matriz[100][100]</code> com <code>-1.0</code> e salva as flags de ponderado e dirigido.</p>
+
+  <h4><code>adicionarVerticeMatriz(int id, char* texto)</code></h4>
+  <p>Insere o vértice diretamente em <code>vertices[QUANTIDADE_VERTICES]</code>. A matriz não precisa de alteração — a nova posição já está inicializada com <code>-1.0</code>.</p>
+
+  <h4><code>adicionarArestaMatriz(int inicio, int fim, float peso)</code></h4>
+  <ul>
+    <li>Localiza as posições <code>pi</code> e <code>pf</code> dos vértices no vetor.</li>
+    <li>Armazena <code>peso</code> em <code>matriz[pi][pf]</code> (ponderado) ou <code>1.0</code> (não ponderado).</li>
+    <li>Se não for dirigido, espelha o valor em <code>matriz[pf][pi]</code>.</li>
+  </ul>
+
+  <h4><code>removerArestaMatriz(int inicio, int fim)</code></h4>
+  <p>Define <code>matriz[pi][pf] = -1.0</code>. Se não for dirigido, também <code>matriz[pf][pi] = -1.0</code>.</p>
+
+  <h4><code>removerVerticeMatriz(int id)</code></h4>
+  <ol>
+    <li>Remove a <strong>linha</strong> do vértice: desloca todas as linhas seguintes uma posição para cima.</li>
+    <li>Remove a <strong>coluna</strong> do vértice: desloca todas as colunas seguintes uma posição para a esquerda.</li>
+    <li>Remove o vértice do vetor <code>vertices[]</code> com shift.</li>
+    <li>Decrementa <code>QUANTIDADE_VERTICES</code>.</li>
+  </ol>
+
+  <h4><code>mostrarGrafoMatriz()</code></h4>
+  <p>Exibe a matriz com os nomes dos vértices como cabeçalho de linha e coluna:</p>
+<pre><code>=== Grafo (Matriz de Adjacência) ===
+            A      B      C
+    A     0.0    2.0    5.0
+    B     0.0    0.0    6.0
+    C     0.0    0.0    0.0</code></pre>
+  <p>Para grafos não ponderados, exibe <code>1</code> (aresta) ou <code>0</code> (sem aresta).</p>
+
+  <h4><code>descobrirCaminhoMatriz(int inicio, int fim)</code></h4>
+  <p>DFS recursiva usando posições no vetor (não IDs). Para cada posição <code>j</code>, verifica se <code>matriz[pos_atual][j] &gt;= 0.0</code> e se ainda não foi visitado.</p>
+
+  <hr>
+
+  <h3>Comportamento final da opção [3]</h3>
+  <table>
+    <thead><tr><th>Configuração</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td>Ponderado = Sim</td><td>Armazena o peso real na célula; exibido na matriz</td></tr>
+      <tr><td>Ponderado = Não</td><td>Armazena <code>1.0</code> para indicar presença de aresta; exibido como <code>1</code></td></tr>
+      <tr><td>Dirigido = Sim</td><td>Apenas <code>matriz[i][j]</code> é preenchida</td></tr>
+      <tr><td>Dirigido = Não</td><td><code>matriz[i][j]</code> e <code>matriz[j][i]</code> são preenchidas com o mesmo valor</td></tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    Estrutura de Dados II — IFFar &nbsp;|&nbsp; Gerado em 07/06/2026
+  </div>
+
+</div>
+</body>
+</html>

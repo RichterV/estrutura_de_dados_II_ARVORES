@@ -231,9 +231,9 @@ void mostrarGrafoLista(){
         GrafoL* adj = vertices[i]->proximo;
         while(adj != NULL){
             if(EH_PONDERADO){
-                printf(" [%d](%.2f)", adj->id, adj->peso);
+                printf(" %s[%d](%.2f)", adj->nome, adj->id, adj->peso);
             } else {
-                printf(" [%d]", adj->id);
+                printf(" %s[%d]", adj->nome, adj->id);
             }
             adj = adj->proximo;
         }
