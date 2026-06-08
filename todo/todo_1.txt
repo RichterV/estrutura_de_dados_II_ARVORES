@@ -1,4 +1,3 @@
 Atividade 1- Possibilidade de adicionar pesos às arestas
 Atividade 2 - Implementar a opção 2 : "[2] Grafo com lista de adjacência\n"
 Atividade 3 - Implementar a opção 3 : "[3] Grafo com matriz de adjacência\n"
-teste
