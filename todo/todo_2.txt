@@ -1,7 +1,6 @@
 Aula: 08/06/2026
 Árvores binárias de busca (ABB)
 
-Implementar uma estrutura de árvore binária
 Implementar como adicionar valor à árvore
 Implementar como remover valor da árvore
 Implementar como achar o valor mínimo
@@ -12,3 +11,6 @@ Implementar formas de visualizar árvore:
     ->In-order (em ordem crescente) - Chamada recursiva
     ->Pre-order (ordem de amplitude) - Serve pra ser possível reconstruir a árvore nó a nó 
     ->Post-order (ordem de amplitude só que iversa) - Serve para Liberar memória da árvore (uso mais comum)
+
+
+FALTA FAZER!!!!
