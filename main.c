@@ -15,15 +15,17 @@ Instituto Federal Farroupilha
 #include "GrafosLista.h"
 #include "GrafosMatriz.h"
 #include "IACODES.h"
+#include "ArvBin.h"
 
 // VARIAVEIS GLOBAIS
-typedef enum {INVALIDO, GRAFICA, LISTA, MATRIZ} GRAFOMETODO; // armazena o método de se trabalhar com grafos
+typedef enum {INVALIDO, GRAFICA, LISTA, MATRIZ, ABB} GRAFOMETODO; // armazena o método de se trabalhar com grafos
 typedef enum {EH_DIRIGIDO, NAO_EH_DIRIGIDO} DIRECAO; // informa se o grafo é ou não é direcionado
 typedef enum {EH_PONDERADO, NAO_EH_PONDERADO} PONDERACAO; // informa se o grafo é ou não é ponderado
 
 // VALORES INICIAIS DO PROGRAMA
 int UNICID = 0;
 GRAFOMETODO GRAFMET = INVALIDO;
+NoArvBin *raiz_abb = NULL; // raiz da árvore binária de busca (usada quando GRAFMET == ABB)
 DIRECAO QUALDIRECAO = NAO_EH_DIRIGIDO;
 PONDERACAO QUALPONDERACAO = NAO_EH_PONDERADO;
 
@@ -33,14 +35,36 @@ MENU(){ /* MOSTRA O MENU PARA O USUÁRIO */
     int opcao;
     while(1){ // repita pra sempre
         if(GRAFMET == INVALIDO){
-            printf("Por favor, escolha um método de se trabalhar com grafos:\n");
+            printf("Por favor, escolha um método de se trabalhar:\n");
             printf("[1] Grafos com representação gráfica\n");
             printf("[2] Grafo com lista de adjacência\n");
             printf("[3] Grafo com matriz de adjacência\n");
-            printf("Opte apenas por [1], [2] ou [3]: ");
+            printf("[4] Árvore binária de busca (ABB)\n");
+            printf("Opte apenas por [1], [2], [3] ou [4]: ");
             scanf("%d", &opcao);
             while(getchar() != '\n'); // limpar buffer após scanf
-            if(opcao < 1 || opcao > 3){
+            if(opcao < 1 || opcao > 4){
+                printf("Valor inválido digitado\n");
+                continue;
+            }
+        }
+        else if(GRAFMET == ABB){
+            printf("=== Árvore Binária de Busca ===\n");
+            printf("[1] Inserir valor\n");
+            printf("[2] Remover valor\n");
+            printf("[3] Valor mínimo\n");
+            printf("[4] Valor máximo\n");
+            printf("[5] Sucessor de um nó\n");
+            printf("[6] Antecessor de um nó\n");
+            printf("[7] Visualizar In-order (ordem crescente)\n");
+            printf("[8] Visualizar Pre-order (reconstrução da árvore)\n");
+            printf("[9] Visualizar Post-order (ordem para liberar memória)\n");
+            printf("[10] Ver ABB graficamente\n");
+            printf("[0] SAIR\n");
+            printf("Opte por [0] a [10]: ");
+            scanf("%d", &opcao);
+            while(getchar() != '\n'); // limpar buffer após scanf
+            if(opcao < 0 || opcao > 10){
                 printf("Valor inválido digitado\n");
                 continue;
             }
@@ -269,6 +293,77 @@ void descobrirCaminho(){
     }
 }
 
+/* ── Funções da Árvore Binária de Busca ───────────────────────────────────── */
+
+void abb_inserir(){
+    int id = IA_lerInteiro("Digite o id (chave inteira) a inserir: ");
+    char nome[100];
+    IA_lerTexto(nome, 100, "Digite o nome (dado) a associar: ");
+    raiz_abb = inserir(raiz_abb, id, nome);
+    printf("Valor [%d] \"%s\" inserido com sucesso.\n", id, nome);
+}
+
+void abb_remover(){
+    if(raiz_abb == NULL){ printf("A árvore está vazia.\n"); return; }
+    int id = IA_lerInteiro("Digite o id a remover: ");
+    raiz_abb = remover(raiz_abb, id);
+    printf("Nó [%d] removido (se existia na árvore).\n", id);
+}
+
+void abb_minimo(){
+    if(raiz_abb == NULL){ printf("A árvore está vazia.\n"); return; }
+    NoArvBin *no = minimo(raiz_abb);
+    printf("Valor mínimo: [%d] %s\n", no->id, no->nome);
+}
+
+void abb_maximo(){
+    if(raiz_abb == NULL){ printf("A árvore está vazia.\n"); return; }
+    NoArvBin *no = maximo(raiz_abb);
+    printf("Valor máximo: [%d] %s\n", no->id, no->nome);
+}
+
+void abb_sucessor(){
+    if(raiz_abb == NULL){ printf("A árvore está vazia.\n"); return; }
+    int id = IA_lerInteiro("Digite o id do nó para buscar o sucessor: ");
+    NoArvBin *no = sucessor(raiz_abb, id);
+    if(no == NULL)
+        printf("O nó [%d] não possui sucessor (é o maior da árvore ou não existe).\n", id);
+    else
+        printf("Sucessor de [%d]: [%d] %s\n", id, no->id, no->nome);
+}
+
+void abb_antecessor(){
+    if(raiz_abb == NULL){ printf("A árvore está vazia.\n"); return; }
+    int id = IA_lerInteiro("Digite o id do nó para buscar o antecessor: ");
+    NoArvBin *no = antecessor(raiz_abb, id);
+    if(no == NULL)
+        printf("O nó [%d] não possui antecessor (é o menor da árvore ou não existe).\n", id);
+    else
+        printf("Antecessor de [%d]: [%d] %s\n", id, no->id, no->nome);
+}
+
+void abb_inorder(){
+    if(raiz_abb == NULL){ printf("A árvore está vazia.\n"); return; }
+    printf("=== In-order (crescente: esq → raiz → dir) ===\n");
+    InOrder(raiz_abb);
+}
+
+void abb_preorder(){
+    if(raiz_abb == NULL){ printf("A árvore está vazia.\n"); return; }
+    printf("=== Pre-order (reconstrução: raiz → esq → dir) ===\n");
+    PreOrder(raiz_abb);
+}
+
+void abb_postorder(){
+    if(raiz_abb == NULL){ printf("A árvore está vazia.\n"); return; }
+    printf("=== Post-order (liberação de memória: esq → dir → raiz) ===\n");
+    PostOrder(raiz_abb);
+}
+
+void abb_visualizar(){
+    visualizarABBDot(raiz_abb);
+}
+
 int main(){
     //variáveis que auxiliam o fluxo de interação
     int opcaomenu;
@@ -282,7 +377,7 @@ int main(){
     do{ //repete pra sempre
         opcaomenu = MENU();
 
-        if(GRAFMET == INVALIDO){ // primeira execução será sempre essa daqui, definindo tipo de grafo
+        if(GRAFMET == INVALIDO){ // primeira execução: define o método de trabalho
             if(opcaomenu == 1){
                 GRAFMET = GRAFICA;
                 printf("Aplicando sistema de grafos com representação gráfica...\n");
@@ -295,27 +390,46 @@ int main(){
                 GRAFMET = MATRIZ;
                 printf("Aplicando sistema de grafos com matriz de adjacência...\n");
             }
+            else if(opcaomenu == 4){
+                GRAFMET = ABB;
+                printf("Iniciando Árvore Binária de Busca...\n");
+                // ABB não usa ponderação nem direcionamento — pula as perguntas abaixo
+            }
 
-            // pergunta se o grafo é ponderado
-            int resp;
-            do {
-                printf("O grafo é ponderado (possui pesos nas arestas)?\n");
-                printf("[1] Sim\n[2] Não\nEscolha: ");
-                scanf("%d", &resp);
-                while(getchar() != '\n'); // limpar buffer após scanf
-            } while(resp != 1 && resp != 2);
-            QUALPONDERACAO = (resp == 1) ? EH_PONDERADO : NAO_EH_PONDERADO;
+            if(GRAFMET != ABB){
+                // pergunta se o grafo é ponderado
+                int resp;
+                do {
+                    printf("O grafo é ponderado (possui pesos nas arestas)?\n");
+                    printf("[1] Sim\n[2] Não\nEscolha: ");
+                    scanf("%d", &resp);
+                    while(getchar() != '\n'); // limpar buffer após scanf
+                } while(resp != 1 && resp != 2);
+                QUALPONDERACAO = (resp == 1) ? EH_PONDERADO : NAO_EH_PONDERADO;
 
-            // pergunta se o grafo é dirigido
-            do {
-                printf("O grafo é dirigido (as arestas têm sentido)?\n");
-                printf("[1] Sim\n[2] Não\nEscolha: ");
-                scanf("%d", &resp);
-                while(getchar() != '\n'); // limpar buffer após scanf
-            } while(resp != 1 && resp != 2);
-            QUALDIRECAO = (resp == 1) ? EH_DIRIGIDO : NAO_EH_DIRIGIDO;
+                // pergunta se o grafo é dirigido
+                do {
+                    printf("O grafo é dirigido (as arestas têm sentido)?\n");
+                    printf("[1] Sim\n[2] Não\nEscolha: ");
+                    scanf("%d", &resp);
+                    while(getchar() != '\n'); // limpar buffer após scanf
+                } while(resp != 1 && resp != 2);
+                QUALDIRECAO = (resp == 1) ? EH_DIRIGIDO : NAO_EH_DIRIGIDO;
 
-            inicializarGrafo();
+                inicializarGrafo();
+            }
+        }
+        else if(GRAFMET == ABB){
+            if     (opcaomenu == 1) abb_inserir();
+            else if(opcaomenu == 2) abb_remover();
+            else if(opcaomenu == 3) abb_minimo();
+            else if(opcaomenu == 4) abb_maximo();
+            else if(opcaomenu == 5) abb_sucessor();
+            else if(opcaomenu == 6) abb_antecessor();
+            else if(opcaomenu == 7) abb_inorder();
+            else if(opcaomenu == 8) abb_preorder();
+            else if(opcaomenu == 9) abb_postorder();
+            else if(opcaomenu == 10) abb_visualizar();
         }
         else{
             if     (opcaomenu == 1) adicionarVertice();

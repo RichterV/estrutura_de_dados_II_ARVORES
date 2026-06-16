@@ -6,3 +6,5 @@
 # Arquivos gerados pelo Graphviz em tempo de execução
 grafo.dot
 grafo.png
+arvore.dot
+arvore.png

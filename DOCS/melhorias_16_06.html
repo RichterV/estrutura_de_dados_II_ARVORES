@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melhorias — 16/06/2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #cdd9e5;
+      background: #0d1117;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 2.5rem 3rem;
+    }
+
+    /* ── Tipografia ── */
+    h1 { font-size: 2rem;   border-bottom: 2px solid #388bfd; padding-bottom: .4rem; margin-bottom: 1.5rem; color: #58a6ff; }
+    h2 { font-size: 1.4rem; border-bottom: 1px solid #30363d; padding-bottom: .3rem; margin: 2.2rem 0 1rem; color: #e6edf3; }
+    h3 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; color: #e6edf3; }
+    h4 { font-size: 1rem;   margin: 1.4rem 0 .4rem; color: #cdd9e5; }
+
+    p  { margin: .7rem 0; }
+    ul, ol { margin: .6rem 0 .6rem 1.6rem; }
+    li { margin: .25rem 0; }
+
+    strong { font-weight: 600; color: #e6edf3; }
+
+    hr {
+      border: none;
+      border-top: 1px solid #30363d;
+      margin: 2rem 0;
+    }
+
+    /* ── Código inline ── */
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: .85em;
+      background: #1f2937;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      padding: .1em .4em;
+      color: #79c0ff;
+    }
+
+    /* ── Bloco de código ── */
+    pre {
+      background: #0d1117;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      overflow-x: auto;
+      margin: .8rem 0 1.2rem;
+      font-size: .85rem;
+      line-height: 1.6;
+    }
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: inherit;
+      color: #e6edf3;
+    }
+
+    /* ── Tabelas ── */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+      font-size: .9rem;
+    }
+    th, td {
+      border: 1px solid #30363d;
+      padding: .5rem .9rem;
+      text-align: left;
+    }
+    th {
+      background: #1f2937;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    tr:nth-child(even) td { background: #1a2030; }
+
+    /* ── Badge de atividade ── */
+    .activity-badge {
+      display: inline-block;
+      background: #1f6feb;
+      color: #e6edf3;
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .6rem;
+      border-radius: 12px;
+      margin-right: .5rem;
+      vertical-align: middle;
+    }
+
+    /* ── Nota de rodapé ── */
+    .footer {
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #30363d;
+      font-size: .8rem;
+      color: #8b949e;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Melhorias — 16/06/2026</h1>
+
+  <!-- ═══════════════════════════════════════════════════ ATIVIDADE -->
+  <h2><span class="activity-badge">Atividade</span> Opção [4] Árvore Binária de Busca (ABB)</h2>
+
+  <h3>O que foi feito</h3>
+  <p>Implementação completa da estrutura de dados <strong>Árvore Binária de Busca (ABB)</strong> integrada ao programa
+  existente como uma quarta opção no menu inicial. Os arquivos <code>ArvBin.h</code> e <code>ArvBin.c</code> foram
+  reescritos com todas as operações e visualização gráfica via Graphviz.</p>
+
+  <hr>
+
+  <h3>O que é uma Árvore Binária de Busca</h3>
+  <p>Uma ABB é uma árvore onde cada nó obedece à seguinte propriedade:</p>
+  <ul>
+    <li>Todos os nós da subárvore <strong>esquerda</strong> têm <code>id &lt; id</code> do nó atual.</li>
+    <li>Todos os nós da subárvore <strong>direita</strong> têm <code>id &gt; id</code> do nó atual.</li>
+  </ul>
+  <p>Essa propriedade vale para <strong>todo nó</strong> da árvore, não apenas para a raiz. Ela garante que operações
+  de busca, inserção e remoção funcionem em <strong>O(log n)</strong> no caso médio — sem precisar comparar com todos
+  os elementos.</p>
+  <p>Exemplo com os ids 5, 3, 7, 1, 4:</p>
+<pre><code>        5
+       / \
+      3   7
+     / \
+    1   4</code></pre>
+  <p>Percorrendo da esquerda para a direita em qualquer nível, os valores sempre aparecem em ordem crescente.</p>
+
+  <hr>
+
+  <h3>Estrutura de dados utilizada</h3>
+  <p>Definida em <code>ArvBin.h</code>:</p>
+<pre><code>typedef struct NoArvBin {
+    int id;               // chave de comparação: define a posição do nó na ABB
+    char nome[100];       // dado satélite: informação associada ao id
+    struct NoArvBin *esq; // filho esquerdo — contém ids menores
+    struct NoArvBin *dir; // filho direito  — contém ids maiores
+} NoArvBin;</code></pre>
+  <p>A árvore inteira é referenciada por um único ponteiro global em <code>main.c</code>:</p>
+<pre><code>NoArvBin *raiz_abb = NULL;</code></pre>
+  <p>Inicialmente <code>NULL</code> (árvore vazia). Cada inserção pode atualizar esse ponteiro — se a árvore estiver
+  vazia, o primeiro nó inserido se torna a raiz.</p>
+
+  <hr>
+
+  <h3>Funções implementadas em <code>ArvBin.c</code></h3>
+
+  <h4><code>criarNo(int id, const char *nome)</code></h4>
+  <p>Aloca um novo nó na memória heap com <code>malloc</code>, preenche <code>id</code> e <code>nome</code>,
+  e define <code>esq = dir = NULL</code>. Um nó recém-criado é sempre uma folha (sem filhos).</p>
+
+  <h4><code>inserir(NoArvBin *raiz, int id, const char *nome)</code></h4>
+  <p>Localiza recursivamente a posição correta seguindo a propriedade da ABB:</p>
+  <ul>
+    <li><code>id &lt; raiz-&gt;id</code> → desce à esquerda</li>
+    <li><code>id &gt; raiz-&gt;id</code> → desce à direita</li>
+    <li><code>id == raiz-&gt;id</code> → duplicata, ignora</li>
+  </ul>
+  <p>Usa o padrão <strong>"retornar e reatribuir"</strong>: cada chamada retorna a raiz da subárvore, e o pai
+  atualiza seu ponteiro filho com esse retorno. Assim, quando <code>criarNo</code> é chamado no fundo da recursão,
+  o ponteiro correto é atualizado automaticamente ao subir.</p>
+
+  <h4><code>remover(NoArvBin *raiz, int id)</code></h4>
+  <p>Navega até o nó e aplica um dos três casos:</p>
+  <table>
+    <thead><tr><th>Caso</th><th>Situação</th><th>Solução</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Sem filho esquerdo</td><td>Substitui o nó pelo filho direito (ou <code>NULL</code>)</td></tr>
+      <tr><td>2</td><td>Sem filho direito</td><td>Substitui o nó pelo filho esquerdo</td></tr>
+      <tr><td>3</td><td>Dois filhos</td><td>Copia os dados do <strong>sucessor</strong> (mínimo da subárvore direita) para o nó atual, depois remove o sucessor original (que sempre cai no caso 1 ou 2)</td></tr>
+    </tbody>
+  </table>
+  <p>O caso 3 preserva a propriedade da ABB porque o sucessor em ordem é, por definição, o menor valor maior que o
+  nó removido — ele pode ocupar esse lugar sem violar nenhuma regra.</p>
+
+  <hr>
+
+  <h3>Travessias (percursos da árvore)</h3>
+  <p>Todas as três travessias são <strong>recursivas</strong>. O caso base em todas é <code>atual == NULL</code> —
+  ao chegar numa folha ou subárvore vazia, a função retorna sem fazer nada.</p>
+
+  <h4><code>InOrder</code> — esq → raiz → dir</h4>
+  <p>Visita a subárvore esquerda inteira, depois o nó atual, depois a direita. Como a esquerda sempre tem valores
+  menores e a direita sempre maiores, o resultado é a sequência de ids em <strong>ordem crescente</strong>.</p>
+<pre><code>InOrder(5) → InOrder(3) → InOrder(1) → imprime 1 → imprime 3 → InOrder(4) → imprime 4 → imprime 5 → InOrder(7) → imprime 7
+Saída: 1  3  4  5  7</code></pre>
+  <p><strong>Uso:</strong> listar todos os valores ordenados.</p>
+
+  <h4><code>PreOrder</code> — raiz → esq → dir</h4>
+  <p>Visita o nó atual <strong>antes</strong> dos filhos. Propriedade importante: se os valores forem inseridos nessa
+  mesma ordem em uma nova ABB vazia, a estrutura resultante será <strong>exatamente igual</strong> à original.</p>
+<pre><code>PreOrder(5) → imprime 5 → PreOrder(3) → imprime 3 → PreOrder(1) → imprime 1 → PreOrder(4) → imprime 4 → PreOrder(7) → imprime 7
+Saída: 5  3  1  4  7</code></pre>
+  <p><strong>Uso:</strong> serializar/salvar a árvore de forma que possa ser reconstruída nó a nó.</p>
+
+  <h4><code>PostOrder</code> — esq → dir → raiz</h4>
+  <p>Visita o nó atual <strong>depois</strong> de ambos os filhos. Garante que nenhum pai seja processado antes de
+  seus descendentes.</p>
+<pre><code>PostOrder(5) → PostOrder(3) → PostOrder(1) → imprime 1 → PostOrder(4) → imprime 4 → imprime 3 → PostOrder(7) → imprime 7 → imprime 5
+Saída: 1  4  3  7  5</code></pre>
+  <p><strong>Uso:</strong> liberar memória da árvore com <code>free</code> — os filhos são liberados antes do pai,
+  evitando ponteiros perdidos.</p>
+
+  <hr>
+
+  <h3>Consultas de extremo</h3>
+
+  <h4><code>minimo(NoArvBin *no)</code></h4>
+  <p>Desce sempre pela esquerda até não haver mais filho esquerdo. O nó mais à esquerda é, por definição, o menor
+  da subárvore.</p>
+<pre><code>while (no-&gt;esq != NULL) no = no-&gt;esq;
+return no;</code></pre>
+
+  <h4><code>maximo(NoArvBin *no)</code></h4>
+  <p>Simétrico ao <code>minimo</code>: desce sempre pela direita até o fim.</p>
+<pre><code>while (no-&gt;dir != NULL) no = no-&gt;dir;
+return no;</code></pre>
+
+  <hr>
+
+  <h3>Sucessor e Antecessor em ordem</h3>
+
+  <h4><code>sucessor(NoArvBin *raiz, int id)</code></h4>
+  <p>Retorna o próximo valor <strong>maior</strong> que <code>id</code> na sequência crescente. Dois casos:</p>
+  <ul>
+    <li><strong>O nó tem filho direito:</strong> o sucessor é o <code>minimo</code> da subárvore direita — o menor
+    dos valores que são maiores que ele.</li>
+    <li><strong>O nó não tem filho direito:</strong> durante a descida, toda vez que vamos para a esquerda guardamos
+    o nó atual como <code>candidato</code>. O último candidato gravado é o sucessor (foi o último ancestral pelo qual
+    "subimos à esquerda").</li>
+  </ul>
+  <p>Retorna <code>NULL</code> se o nó for o maior da árvore.</p>
+<pre><code>// Árvore: 1  3  4  5  7
+sucessor(3) → minimo(subárvore direita de 3) = 4
+sucessor(7) → NULL  (não há maior)</code></pre>
+
+  <h4><code>antecessor(NoArvBin *raiz, int id)</code></h4>
+  <p>Simétrico ao <code>sucessor</code> (troca esquerda/direita e min/max):</p>
+  <ul>
+    <li><strong>O nó tem filho esquerdo:</strong> antecessor é <code>maximo</code> da subárvore esquerda.</li>
+    <li><strong>O nó não tem filho esquerdo:</strong> o <code>candidato</code> é o último ancestral pelo qual
+    descemos à direita.</li>
+  </ul>
+  <p>Retorna <code>NULL</code> se o nó for o menor da árvore.</p>
+<pre><code>// Árvore: 1  3  4  5  7
+antecessor(4) → maximo(subárvore esquerda de 4) = 3
+antecessor(1) → NULL  (não há menor)</code></pre>
+
+  <hr>
+
+  <h3>Visualização gráfica (<code>visualizarABBDot</code>)</h3>
+  <p>Funciona com o mesmo mecanismo da visualização de grafos já existente no programa: gera um arquivo
+  <code>.dot</code> e chama o Graphviz para converter em imagem <code>.png</code>.</p>
+
+  <h4>Fluxo completo</h4>
+<pre><code>árvore em memória  →  arvore.dot  →  dot -Tpng  →  arvore.png  →  start arvore.png</code></pre>
+
+  <h4>Formato do arquivo <code>.dot</code> gerado</h4>
+<pre><code>digraph ABB {
+    node [shape=circle fontname="Helvetica"];
+    graph [ordering="out"];
+    edge [fontsize=10];
+    5 [label="[5]\nAlice"];
+    3 [label="[3]\nBob"];
+    7 [label="[7]\nCarlos"];
+    5 -> 3 [label="L"];
+    5 -> 7 [label="R"];
+}</code></pre>
+  <ul>
+    <li><code>digraph</code> (grafo dirigido) porque as arestas pai → filho têm sentido.</li>
+    <li><code>ordering="out"</code> garante que o filho esquerdo apareça à esquerda do direito no layout.</li>
+    <li>As arestas são rotuladas com <code>L</code> (filho esquerdo) ou <code>R</code> (filho direito).</li>
+    <li>O label de cada nó mostra <code>[id]</code> na primeira linha e <code>nome</code> na segunda.</li>
+  </ul>
+
+  <h4>Funções auxiliares internas</h4>
+  <p>Ambas são <code>static</code> — visíveis apenas dentro de <code>ArvBin.c</code>, sem poluir o namespace global.</p>
+  <ul>
+    <li><code>escreverNos(FILE *f, NoArvBin *no)</code> — percorre em pré-ordem e escreve a linha de cada nó.</li>
+    <li><code>escreverArestas(FILE *f, NoArvBin *no)</code> — percorre em pré-ordem e escreve as arestas existentes
+    (não escreve aresta para filhos <code>NULL</code>).</li>
+  </ul>
+  <p>Se o Graphviz não estiver instalado, o programa informa o comando de instalação e exibe o link para visualizar
+  o <code>.dot</code> online: <code>https://dreampuf.github.io/GraphvizOnline</code></p>
+
+  <hr>
+
+  <h3>Alterações em <code>main.c</code></h3>
+
+  <h4>Menu inicial — nova opção [4]</h4>
+<pre><code>typedef enum {INVALIDO, GRAFICA, LISTA, MATRIZ, ABB} GRAFOMETODO;</code></pre>
+<pre><code>[1] Grafos com representação gráfica
+[2] Grafo com lista de adjacência
+[3] Grafo com matriz de adjacência
+[4] Árvore binária de busca (ABB)   &lt;-- novo</code></pre>
+  <p>Ao selecionar <code>[4]</code>, as perguntas de "ponderado" e "dirigido" são puladas — não fazem sentido para
+  uma árvore.</p>
+
+  <h4>Variável global da raiz</h4>
+<pre><code>NoArvBin *raiz_abb = NULL;</code></pre>
+  <p>Declarada em escopo global para persistir entre operações do menu. As funções <code>abb_inserir</code> e
+  <code>abb_remover</code> atualizam esse ponteiro com o retorno de <code>inserir</code> e <code>remover</code>.</p>
+
+  <h4>Submenu da ABB</h4>
+<pre><code>=== Árvore Binária de Busca ===
+[1]  Inserir valor
+[2]  Remover valor
+[3]  Valor mínimo
+[4]  Valor máximo
+[5]  Sucessor de um nó
+[6]  Antecessor de um nó
+[7]  Visualizar In-order  (ordem crescente)
+[8]  Visualizar Pre-order (reconstrução da árvore)
+[9]  Visualizar Post-order (ordem para liberar memória)
+[10] Ver ABB graficamente
+[0]  SAIR</code></pre>
+
+  <hr>
+
+  <h3>Resumo das operações e suas complexidades</h3>
+  <table>
+    <thead><tr><th>Operação</th><th>Caso médio</th><th>Pior caso (árvore degenerada)</th></tr></thead>
+    <tbody>
+      <tr><td>Inserir</td><td>O(log n)</td><td>O(n)</td></tr>
+      <tr><td>Remover</td><td>O(log n)</td><td>O(n)</td></tr>
+      <tr><td>Mínimo / Máximo</td><td>O(log n)</td><td>O(n)</td></tr>
+      <tr><td>Sucessor / Antecessor</td><td>O(log n)</td><td>O(n)</td></tr>
+      <tr><td>InOrder / PreOrder / PostOrder</td><td>O(n)</td><td>O(n)</td></tr>
+    </tbody>
+  </table>
+  <p>O pior caso ocorre quando os elementos são inseridos em ordem crescente ou decrescente — a árvore vira uma
+  lista encadeada. Para garantir O(log n) sempre, seria necessária uma <strong>Árvore Rubro-Negra</strong>
+  (implementada em <code>ArvRN.c</code>).</p>
+
+  <div class="footer">
+    Estrutura de Dados II — IFFar &nbsp;|&nbsp; Gerado em 16/06/2026
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,4 +1,5 @@
 Aula: 08/06/2026
+Implementação: 16/06/2026
 Árvores binárias de busca (ABB)
 
 Implementar como adicionar valor à árvore
@@ -13,4 +14,4 @@ Implementar formas de visualizar árvore:
     ->Post-order (ordem de amplitude só que iversa) - Serve para Liberar memória da árvore (uso mais comum)
 
 
-FALTA FAZER!!!!
+FEITO!!!!
