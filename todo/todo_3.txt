@@ -1,5 +1,10 @@
+Aula: 15/06/2026
 Árvore rubro negra
 
 Implementar a inserção!
+
+Aula: 22/06/2026
+
+Remoção!
 
 FALTA FAZER!!
