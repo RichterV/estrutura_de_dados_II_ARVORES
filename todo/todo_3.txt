@@ -1,10 +1,5 @@
 Aula: 15/06/2026
 Árvore rubro negra
-
-Implementar a inserção!
-
+Implementar a inserção!-FALTA FAZER!
 Aula: 22/06/2026
-
-Remoção!
-
-FALTA FAZER!!
+Remoção!-FALTA FAZER!!

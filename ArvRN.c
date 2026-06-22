@@ -4,4 +4,3 @@
 #include "ArvRN.h"
 
 // ──────────────── PRINCIPAIS ────────────────
-InserirRN
