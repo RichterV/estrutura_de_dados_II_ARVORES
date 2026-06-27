@@ -1,0 +1,10 @@
+digraph ARN {
+    node [shape=circle fontname="Helvetica"];
+    graph [ordering="out"];
+    edge [fontsize=10];
+    17 [label="[17]\n\"A\"" style=filled fillcolor=black fontcolor=white];
+    10 [label="[10]\n\"B\"" style=filled fillcolor=red fontcolor=white];
+    26 [label="[26]\n\"C\"" style=filled fillcolor=red fontcolor=white];
+    17 -> 10 [label="E"];
+    17 -> 26 [label="D"];
+}

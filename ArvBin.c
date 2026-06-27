@@ -7,6 +7,14 @@
    VISUALIZAÇÃO GRÁFICA — gera arquivo .dot e abre imagem via Graphviz
    ══════════════════════════════════════════════════════════════════════════════ */
 
+/* Escreve uma string no arquivo escapando " e \ para não quebrar o formato DOT. */
+static void escreverTextoSeguro(FILE *f, const char *str) {
+    for (; *str; str++) {
+        if (*str == '"' || *str == '\\') fputc('\\', f);
+        fputc(*str, f);
+    }
+}
+
 /*
  * escreverNos: percorre a árvore em pré-ordem e escreve cada nó no arquivo .dot.
  * Formato: id [label="[id]\nnome"];
@@ -14,7 +22,9 @@
  */
 static void escreverNos(FILE *f, NoArvBin *no) {
     if (no == NULL) return;
-    fprintf(f, "    %d [label=\"[%d]\\n%s\"];\n", no->id, no->id, no->nome);
+    fprintf(f, "    %d [label=\"[%d]\\n", no->id, no->id);
+    escreverTextoSeguro(f, no->nome);
+    fprintf(f, "\"];\n");
     escreverNos(f, no->esq); /* escreve nós da subárvore esquerda */
     escreverNos(f, no->dir); /* escreve nós da subárvore direita  */
 }

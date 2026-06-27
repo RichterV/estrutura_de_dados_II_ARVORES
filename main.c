@@ -16,9 +16,10 @@ Instituto Federal Farroupilha
 #include "GrafosMatriz.h"
 #include "IACODES.h"
 #include "ArvBin.h"
+#include "ArvRN.h"
 
 // VARIAVEIS GLOBAIS
-typedef enum {INVALIDO, GRAFICA, LISTA, MATRIZ, ABB} GRAFOMETODO; // armazena o método de se trabalhar com grafos
+typedef enum {INVALIDO, GRAFICA, LISTA, MATRIZ, ABB, ARN} GRAFOMETODO; // armazena o método de se trabalhar com grafos
 typedef enum {EH_DIRIGIDO, NAO_EH_DIRIGIDO} DIRECAO; // informa se o grafo é ou não é direcionado
 typedef enum {EH_PONDERADO, NAO_EH_PONDERADO} PONDERACAO; // informa se o grafo é ou não é ponderado
 
@@ -26,6 +27,7 @@ typedef enum {EH_PONDERADO, NAO_EH_PONDERADO} PONDERACAO; // informa se o grafo 
 int UNICID = 0;
 GRAFOMETODO GRAFMET = INVALIDO;
 NoArvBin *raiz_abb = NULL; // raiz da árvore binária de busca (usada quando GRAFMET == ABB)
+NoARN    *raiz_arn = NULL; // raiz da árvore rubro-negra     (usada quando GRAFMET == ARN)
 DIRECAO QUALDIRECAO = NAO_EH_DIRIGIDO;
 PONDERACAO QUALPONDERACAO = NAO_EH_PONDERADO;
 
@@ -40,10 +42,11 @@ MENU(){ /* MOSTRA O MENU PARA O USUÁRIO */
             printf("[2] Grafo com lista de adjacência\n");
             printf("[3] Grafo com matriz de adjacência\n");
             printf("[4] Árvore binária de busca (ABB)\n");
-            printf("Opte apenas por [1], [2], [3] ou [4]: ");
+            printf("[5] Árvore rubro negra (ARN)\n");
+            printf("Opte apenas por [1], [2], [3], [4] ou [5]: ");
             scanf("%d", &opcao);
             while(getchar() != '\n'); // limpar buffer após scanf
-            if(opcao < 1 || opcao > 4){
+            if(opcao < 1 || opcao > 5){
                 printf("Valor inválido digitado\n");
                 continue;
             }
@@ -60,11 +63,27 @@ MENU(){ /* MOSTRA O MENU PARA O USUÁRIO */
             printf("[8] Visualizar Pre-order (reconstrução da árvore)\n");
             printf("[9] Visualizar Post-order (ordem para liberar memória)\n");
             printf("[10] Ver ABB graficamente\n");
+            printf("[11] Inserir dados dummies\n");
             printf("[0] SAIR\n");
-            printf("Opte por [0] a [10]: ");
+            printf("Opte por [0] a [11]: ");
             scanf("%d", &opcao);
             while(getchar() != '\n'); // limpar buffer após scanf
-            if(opcao < 0 || opcao > 10){
+            if(opcao < 0 || opcao > 11){
+                printf("Valor inválido digitado\n");
+                continue;
+            }
+        }
+        else if(GRAFMET == ARN){
+            printf("=== Árvore Rubro-Negra ===\n");
+            printf("[1] Inserir valor\n");
+            printf("[2] Remover valor\n");
+            printf("[3] Ver ARN graficamente\n");
+            printf("[4] Inserir dados dummies\n");
+            printf("[0] SAIR\n");
+            printf("Opte por [0] a [4]: ");
+            scanf("%d", &opcao);
+            while(getchar() != '\n'); // limpar buffer após scanf
+            if(opcao < 0 || opcao > 4){
                 printf("Valor inválido digitado\n");
                 continue;
             }
@@ -78,11 +97,12 @@ MENU(){ /* MOSTRA O MENU PARA O USUÁRIO */
             printf("[4] Remover Vértice\n");
             printf("[5] Ver Grafo\n");
             printf("[6] Descobrir Caminho\n");
+            printf("[7] Inserir dados dummies\n");
             printf("[0] SAIR\n");
-            printf("Opte apenas por [1], [2], [3], [4], [5], [6] ou [0]: ");
+            printf("Opte apenas por [0] a [7]: ");
             scanf("%d", &opcao);
             while(getchar() != '\n'); // limpar buffer após scanf
-            if(opcao < 0 || opcao > 6){
+            if(opcao < 0 || opcao > 7){
                 printf("Valor inválido digitado\n");
                 continue;
             }
@@ -293,6 +313,39 @@ void descobrirCaminho(){
     }
 }
 
+/* ── Dados dummies compartilhados ──────────────────────────────────────────── */
+
+#define DUMMY_N 15
+/* 15 chaves espalhadas entre 1 e 50 — produzem uma ABB/ARN visualmente equilibrada */
+static const int DUMMY_IDS[DUMMY_N] = {25,12,37,6,18,30,44,3,9,15,22,28,35,41,48};
+/* Arestas do grafo dummy: pares de índices 0-based referentes a ids[] */
+static const int DUMMY_ARESTAS[19][2] = {
+    {0,1},{1,2},{2,3},{3,4},{4,5},{5,6},{6,7},{7,8},{8,9},{9,10},
+    {10,11},{11,12},{12,13},{13,14},
+    {0,5},{2,7},{4,9},{6,11},{8,13}
+};
+
+void grafo_inserir_dummies(){
+    int ids[DUMMY_N];
+    for(int i = 0; i < DUMMY_N; i++){
+        ids[i] = UNICID++;
+        char nome[4];
+        nome[0] = 'A' + i; nome[1] = '\0';
+        if     (GRAFMET == GRAFICA) adicionarVerticeGrafica(ids[i], nome);
+        else if(GRAFMET == LISTA)   adicionarVerticeLista(ids[i], nome);
+        else if(GRAFMET == MATRIZ)  adicionarVerticeMatriz(ids[i], nome);
+    }
+    for(int i = 0; i < 19; i++){
+        int a   = ids[DUMMY_ARESTAS[i][0]];
+        int b   = ids[DUMMY_ARESTAS[i][1]];
+        float p = (QUALPONDERACAO == EH_PONDERADO) ? (float)(i + 1) : 0.0f;
+        if     (GRAFMET == GRAFICA) adicionarArestaGrafica(a, b, p);
+        else if(GRAFMET == LISTA)   adicionarArestaLista(a, b, p);
+        else if(GRAFMET == MATRIZ)  adicionarArestaMatriz(a, b, p);
+    }
+    printf("15 vértices (A–O) e 19 arestas inseridos com sucesso.\n");
+}
+
 /* ── Funções da Árvore Binária de Busca ───────────────────────────────────── */
 
 void abb_inserir(){
@@ -364,6 +417,44 @@ void abb_visualizar(){
     visualizarABBDot(raiz_abb);
 }
 
+void abb_inserir_dummies(){
+    for(int i = 0; i < DUMMY_N; i++){
+        char nome[4];
+        nome[0] = 'A' + i; nome[1] = '\0';
+        raiz_abb = inserir(raiz_abb, DUMMY_IDS[i], nome);
+    }
+    printf("15 valores (A–O, ids 1–50) inseridos com sucesso na ABB.\n");
+}
+
+/* ── Funções da Árvore Rubro-Negra ───────────────────────────────────────── */
+
+void arn_inserir(){
+    int id = IA_lerInteiro("Digite o id (chave inteira) a inserir: ");
+    char nome[100];
+    IA_lerTexto(nome, 100, "Digite o nome (dado) a associar: ");
+    inserirARN(&raiz_arn, id, nome);
+    printf("Valor [%d] \"%s\" inserido com sucesso.\n", id, nome);
+}
+
+void arn_remover(){
+    if(raiz_arn == NIL_ARN){ printf("A árvore está vazia.\n"); return; }
+    int id = IA_lerInteiro("Digite o id a remover: ");
+    removerARN(&raiz_arn, id);
+}
+
+void arn_visualizar(){
+    visualizarARNDot(raiz_arn);
+}
+
+void arn_inserir_dummies(){
+    for(int i = 0; i < DUMMY_N; i++){
+        char nome[4];
+        nome[0] = 'A' + i; nome[1] = '\0';
+        inserirARN(&raiz_arn, DUMMY_IDS[i], nome);
+    }
+    printf("15 valores (A–O, ids 1–50) inseridos com sucesso na ARN.\n");
+}
+
 int main(){
     //variáveis que auxiliam o fluxo de interação
     int opcaomenu;
@@ -395,8 +486,14 @@ int main(){
                 printf("Iniciando Árvore Binária de Busca...\n");
                 // ABB não usa ponderação nem direcionamento — pula as perguntas abaixo
             }
+            else if(opcaomenu == 5){
+                GRAFMET = ARN;
+                printf("Iniciando Árvore Rubro-Negra...\n");
+                inicializarARN(&raiz_arn);
+                // ARN não usa ponderação nem direcionamento — pula as perguntas abaixo
+            }
 
-            if(GRAFMET != ABB){
+            if(GRAFMET != ABB && GRAFMET != ARN){
                 // pergunta se o grafo é ponderado
                 int resp;
                 do {
@@ -430,6 +527,13 @@ int main(){
             else if(opcaomenu == 8) abb_preorder();
             else if(opcaomenu == 9) abb_postorder();
             else if(opcaomenu == 10) abb_visualizar();
+            else if(opcaomenu == 11) abb_inserir_dummies();
+        }
+        else if(GRAFMET == ARN){
+            if     (opcaomenu == 1) arn_inserir();
+            else if(opcaomenu == 2) arn_remover();
+            else if(opcaomenu == 3) arn_visualizar();
+            else if(opcaomenu == 4) arn_inserir_dummies();
         }
         else{
             if     (opcaomenu == 1) adicionarVertice();
@@ -438,6 +542,7 @@ int main(){
             else if(opcaomenu == 4) removerVertice();
             else if(opcaomenu == 5) mostrarGrafo();
             else if(opcaomenu == 6) descobrirCaminho();
+            else if(opcaomenu == 7) grafo_inserir_dummies();
         }
 
         if(opcaomenu != 0) pausa();
