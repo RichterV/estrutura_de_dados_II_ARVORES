@@ -292,6 +292,7 @@ void removerARN(NoARN **raiz, int id) {
         y->esq->pai = y;
         y->cor      = z->cor;
     }
+    printf("Nó [%d] removido com sucesso da ARN.\n", id);
     free(z);
 
     /* Só precisa de fixup se a cor removida era PRETA */
