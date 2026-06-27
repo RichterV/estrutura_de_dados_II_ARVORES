@@ -464,6 +464,7 @@ int main(){
 #endif
 
     //Código Principal
+    CreateDirectoryA("images", NULL); /* cria a pasta images/ se ainda não existir */
     printf("Olá aluno de ED2, seja bem vindo ao programa.\n");
     do{ //repete pra sempre
         opcaomenu = MENU();

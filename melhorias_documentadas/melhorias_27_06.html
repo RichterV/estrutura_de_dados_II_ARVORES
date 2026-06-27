@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melhorias — 27/06/2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #cdd9e5;
+      background: #0d1117;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 2.5rem 3rem;
+    }
+
+    /* ── Tipografia ── */
+    h1 { font-size: 2rem;   border-bottom: 2px solid #388bfd; padding-bottom: .4rem; margin-bottom: 1.5rem; color: #58a6ff; }
+    h2 { font-size: 1.4rem; border-bottom: 1px solid #30363d; padding-bottom: .3rem; margin: 2.2rem 0 1rem; color: #e6edf3; }
+    h3 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; color: #e6edf3; }
+    h4 { font-size: 1rem;   margin: 1.4rem 0 .4rem; color: #cdd9e5; }
+
+    p  { margin: .7rem 0; }
+    ul, ol { margin: .6rem 0 .6rem 1.6rem; }
+    li { margin: .25rem 0; }
+
+    strong { font-weight: 600; color: #e6edf3; }
+
+    hr {
+      border: none;
+      border-top: 1px solid #30363d;
+      margin: 2rem 0;
+    }
+
+    /* ── Código inline ── */
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: .85em;
+      background: #1f2937;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      padding: .1em .4em;
+      color: #79c0ff;
+    }
+
+    /* ── Bloco de código ── */
+    pre {
+      background: #0d1117;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      overflow-x: auto;
+      margin: .8rem 0 1.2rem;
+      font-size: .85rem;
+      line-height: 1.6;
+    }
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: inherit;
+      color: #e6edf3;
+    }
+
+    /* ── Tabelas ── */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+      font-size: .9rem;
+    }
+    th, td {
+      border: 1px solid #30363d;
+      padding: .5rem .9rem;
+      text-align: left;
+    }
+    th {
+      background: #1f2937;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    tr:nth-child(even) td { background: #1a2030; }
+
+    /* ── Badge de atividade ── */
+    .activity-badge {
+      display: inline-block;
+      background: #1f6feb;
+      color: #e6edf3;
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .6rem;
+      border-radius: 12px;
+      margin-right: .5rem;
+      vertical-align: middle;
+    }
+
+    /* ── Nota de rodapé ── */
+    .footer {
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #30363d;
+      font-size: .8rem;
+      color: #8b949e;
+      text-align: center;
+    }
+
+    /* ── Badges de cor para nós ARN ── */
+    .node-red {
+      display: inline-block;
+      background: #da3633;
+      color: #fff;
+      font-size: .8em;
+      font-weight: 600;
+      padding: .15em .5em;
+      border-radius: 4px;
+      font-family: "SFMono-Regular", Consolas, monospace;
+    }
+    .node-black {
+      display: inline-block;
+      background: #161b22;
+      color: #cdd9e5;
+      border: 1px solid #30363d;
+      font-size: .8em;
+      font-weight: 600;
+      padding: .15em .5em;
+      border-radius: 4px;
+      font-family: "SFMono-Regular", Consolas, monospace;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Melhorias — 27/06/2026</h1>
+
+  <!-- ═══════════════════════════════════════════════════ ATIVIDADE 1 -->
+  <h2><span class="activity-badge">Atividade 1</span> Opção [5] Árvore Rubro-Negra (ARN)</h2>
+
+  <h3>O que foi feito</h3>
+  <p>Implementação completa da estrutura de dados <strong>Árvore Rubro-Negra (ARN)</strong> integrada ao programa como
+  quinta opção no menu inicial. Os arquivos <code>ArvRN.h</code> e <code>ArvRN.c</code> foram criados do zero com
+  inserção, remoção, visualização gráfica colorida via Graphviz e a lógica de balanceamento automático.</p>
+
+  <hr>
+
+  <h3>O que é uma Árvore Rubro-Negra</h3>
+  <p>A ARN é uma <strong>Árvore Binária de Busca com balanceamento automático</strong>. Ela resolve o principal
+  problema da ABB simples: quando elementos são inseridos em ordem crescente ou decrescente, a ABB degenera em uma
+  lista encadeada e as operações passam de O(log n) para O(n).</p>
+  <p>A ARN garante <strong>O(log n) no pior caso</strong> para inserção, remoção e busca, sempre — independente da
+  ordem de inserção. Ela faz isso mantendo cinco propriedades invariantes que limitam a diferença de altura entre
+  quaisquer dois caminhos da raiz até uma folha.</p>
+
+  <h4>As 5 propriedades invariantes</h4>
+  <table>
+    <thead><tr><th>#</th><th>Propriedade</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Todo nó é <span class="node-red">VERMELHO</span> ou <span class="node-black">PRETO</span></td></tr>
+      <tr><td>2</td><td>A <strong>raiz</strong> é sempre <span class="node-black">PRETO</span></td></tr>
+      <tr><td>3</td><td>Toda <strong>folha</strong> (nó NIL sentinela) é <span class="node-black">PRETO</span></td></tr>
+      <tr><td>4</td><td>Se um nó é <span class="node-red">VERMELHO</span>, ambos os seus filhos são <span class="node-black">PRETOS</span> — não existem dois vermelhos consecutivos</td></tr>
+      <tr><td>5</td><td>Para todo nó, todos os caminhos simples até folhas descendentes possuem o mesmo número de nós <span class="node-black">PRETOS</span> (altura-negra)</td></tr>
+    </tbody>
+  </table>
+  <p>A propriedade 4 impede que a árvore cresça demais em um lado, e a propriedade 5 garante que nenhum caminho seja
+  mais que o dobro do comprimento de outro — o que limita a altura máxima a <code>2 · log₂(n+1)</code>.</p>
+
+  <h4>Comparação com a ABB</h4>
+  <table>
+    <thead><tr><th></th><th>ABB</th><th>ARN</th></tr></thead>
+    <tbody>
+      <tr><td>Inserção</td><td>O(log n) médio / O(n) pior caso</td><td><strong>O(log n) sempre</strong></td></tr>
+      <tr><td>Remoção</td><td>O(log n) médio / O(n) pior caso</td><td><strong>O(log n) sempre</strong></td></tr>
+      <tr><td>Implementação</td><td>Simples</td><td>Mais complexa (rotações + fixup)</td></tr>
+      <tr><td>Balanceamento</td><td>Nenhum — depende da ordem de inserção</td><td>Automático após cada operação</td></tr>
+    </tbody>
+  </table>
+  <p>Inserindo 1, 2, 3, 4, 5 em ordem crescente:</p>
+<pre><code>ABB (degenerada):         ARN (balanceada):
+1                               2
+ \                            /   \
+  2                          1     4
+   \                              / \
+    3                            3   5
+     \
+      4
+       \
+        5</code></pre>
+
+  <hr>
+
+  <h3>Estrutura de dados utilizada</h3>
+  <p>Definida em <code>ArvRN.h</code>:</p>
+<pre><code>#define VERMELHO 0
+#define PRETO    1
+
+typedef struct NoARN {
+    int id;            // chave de comparação: define a posição na ARN
+    char nome[100];    // dado satélite: informação associada ao id
+    int cor;           // VERMELHO (0) ou PRETO (1)
+    struct NoARN *esq; // filho esquerdo  — ids menores
+    struct NoARN *dir; // filho direito   — ids maiores
+    struct NoARN *pai; // ponteiro para o nó pai (necessário para rotações e fixups)
+} NoARN;</code></pre>
+  <p>A diferença principal em relação ao <code>NoArvBin</code> é o campo <code>cor</code> e o ponteiro <code>pai</code>.
+  O ponteiro <code>pai</code> é necessário porque os fixups precisam subir na árvore sem recursão.</p>
+
+  <h4>O nó sentinela <code>NIL_ARN</code></h4>
+  <p>Em vez de usar <code>NULL</code> para representar folhas, a ARN usa um <strong>nó sentinela</strong> — um único nó
+  <span class="node-black">PRETO</span> estático compartilhado por toda a árvore que representa todas as folhas
+  simultaneamente:</p>
+<pre><code>static NoARN NIL_NODE = {0, "", PRETO, NULL, NULL, NULL};
+NoARN *NIL_ARN = &amp;NIL_NODE;</code></pre>
+  <p>Ao inicializar, a sentinela aponta para si mesma em <code>esq</code>, <code>dir</code> e <code>pai</code>,
+  formando um ciclo seguro:</p>
+<pre><code>NIL_NODE.esq = NIL_ARN;
+NIL_NODE.dir = NIL_ARN;
+NIL_NODE.pai = NIL_ARN;</code></pre>
+  <p><strong>Por que usar sentinela em vez de NULL?</strong> As rotações e os fixups precisam acessar
+  <code>no-&gt;pai-&gt;cor</code>, <code>no-&gt;pai-&gt;esq</code> etc. Se o pai fosse <code>NULL</code>, qualquer
+  dessas acessos causaria falha de segmentação. Com a sentinela (sempre <span class="node-black">PRETO</span> e com
+  ponteiros válidos para si mesma), essas acessos são seguros sem nenhuma verificação de NULL explícita.</p>
+
+  <hr>
+
+  <h3>Rotações</h3>
+  <p>As rotações são a operação primitiva que move nós para reequilibrar a árvore. Elas <strong>preservam a propriedade
+  de ordem</strong> da BST e apenas reorganizam os ponteiros.</p>
+
+  <h4><code>rotacaoEsq(NoARN **raiz, NoARN *x)</code></h4>
+  <p>O nó <code>y</code> (filho direito de <code>x</code>) sobe, e <code>x</code> desce para a esquerda de
+  <code>y</code>:</p>
+<pre><code>Antes:          Depois:
+    x               y
+   / \             / \
+  A   y    →      x   C
+     / \         / \
+    B   C       A   B</code></pre>
+
+  <h4><code>rotacaoDir(NoARN **raiz, NoARN *x)</code></h4>
+  <p>Simétrica à <code>rotacaoEsq</code>: o nó <code>y</code> (filho esquerdo de <code>x</code>) sobe, e
+  <code>x</code> desce para a direita de <code>y</code>:</p>
+<pre><code>Antes:          Depois:
+    x               y
+   / \             / \
+  y   C    →      A   x
+ / \                 / \
+A   B               B   C</code></pre>
+
+  <hr>
+
+  <h3>Inserção</h3>
+
+  <h4><code>inserirARN(NoARN **raiz, int id, const char *nome)</code></h4>
+  <p>A inserção funciona em duas etapas:</p>
+  <p><strong>Etapa 1 — Inserção como BST comum:</strong> navega pela árvore exatamente como a ABB até encontrar uma
+  posição <code>NIL_ARN</code>. Cria o nó com <code>malloc</code> e define <code>cor = VERMELHO</code>.</p>
+  <p>O novo nó é sempre inserido como <span class="node-red">VERMELHO</span> porque isso pode violar apenas a
+  propriedade 4, mas nunca a propriedade 5 (altura-negra). Seria muito mais difícil corrigir uma violação da
+  propriedade 5.</p>
+  <p><strong>Etapa 2 — <code>fixupInserir</code>:</strong> restaura as propriedades subindo pela árvore enquanto o
+  pai do nó atual for <span class="node-red">VERMELHO</span>. Considera três casos baseados na cor do tio
+  (irmão do pai):</p>
+  <table>
+    <thead><tr><th>Caso</th><th>Condição</th><th>Solução</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Tio é <span class="node-red">VERMELHO</span></td>
+        <td>Recolorir: pai → <span class="node-black">PRETO</span>, tio → <span class="node-black">PRETO</span>, avô → <span class="node-red">VERMELHO</span>. Sobe ao avô e repete.</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Tio é <span class="node-black">PRETO</span>, nó forma "triângulo" com pai e avô</td>
+        <td>Rotação no pai transforma triângulo em linha reta. Cai no Caso 3.</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Tio é <span class="node-black">PRETO</span>, nó forma "linha reta" com pai e avô</td>
+        <td>Recolorir pai → <span class="node-black">PRETO</span>, avô → <span class="node-red">VERMELHO</span> + rotação no avô. Termina.</td>
+      </tr>
+    </tbody>
+  </table>
+<pre><code>Caso 1 (tio vermelho):         Caso 3 (linha reta, lado esquerdo):
+      avô(P)                         avô(V)
+      /    \                         /    \
+   pai(V) tio(V)       →          pai(P)  C
+    /                              /
+   z(V)                           z(V)
+   ↓ recolorir                    ↓ rotacaoDir(avô)
+      avô(V)                         pai(P)
+      /    \                         /    \
+   pai(P) tio(P)                   z(V)  avô(V)
+    /                                       \
+   z(V)                                      C</code></pre>
+  <p>Ao final, a raiz é forçada para <span class="node-black">PRETO</span> (propriedade 2).</p>
+
+  <hr>
+
+  <h3>Remoção</h3>
+
+  <h4><code>removerARN(NoARN **raiz, int id)</code></h4>
+  <p>A remoção também funciona em duas etapas.</p>
+  <p><strong>Etapa 1 — Busca e desvinculação:</strong> encontra o nó com o <code>id</code> dado. Se não existir,
+  imprime mensagem e retorna. Em seguida aplica um dos três casos:</p>
+  <table>
+    <thead><tr><th>Caso</th><th>Condição</th><th>Solução</th></tr></thead>
+    <tbody>
+      <tr><td>A</td><td>Sem filho esquerdo</td><td><code>transplant(z, z-&gt;dir)</code>: filho direito sobe</td></tr>
+      <tr><td>B</td><td>Sem filho direito</td><td><code>transplant(z, z-&gt;esq)</code>: filho esquerdo sobe</td></tr>
+      <tr><td>C</td><td>Dois filhos</td><td>Encontra o sucessor <code>y</code> (mínimo da subárvore direita), copia seus dados para <code>z</code>, depois remove <code>y</code> (que cai nos casos A ou B)</td></tr>
+    </tbody>
+  </table>
+  <p>A função auxiliar <code>transplant(u, v)</code> substitui a subárvore com raiz <code>u</code> pela subárvore com
+  raiz <code>v</code>, atualizando o ponteiro do pai de <code>u</code>.</p>
+
+  <p><strong>Etapa 2 — <code>fixupRemover</code>:</strong> só necessário quando o nó removido era
+  <span class="node-black">PRETO</span> (remover um <span class="node-red">VERMELHO</span> não afeta a altura-negra).
+  Sobe pela árvore com quatro casos baseados na cor do irmão de <code>x</code>:</p>
+  <table>
+    <thead><tr><th>Caso</th><th>Condição</th><th>Solução</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Irmão é <span class="node-red">VERMELHO</span></td><td>Rotação + recolorir. Converte em Caso 2, 3 ou 4.</td></tr>
+      <tr><td>2</td><td>Irmão é <span class="node-black">PRETO</span>, filhos do irmão são <span class="node-black">PRETOS</span></td><td>Recolorir irmão → <span class="node-red">VERMELHO</span>. Sobe <code>x</code> ao pai.</td></tr>
+      <tr><td>3</td><td>Irmão é <span class="node-black">PRETO</span>, filho próximo do irmão é <span class="node-red">VERMELHO</span></td><td>Rotação + recolorir. Converte em Caso 4.</td></tr>
+      <tr><td>4</td><td>Irmão é <span class="node-black">PRETO</span>, filho distante do irmão é <span class="node-red">VERMELHO</span></td><td>Rotação + recolorir. Termina o loop.</td></tr>
+    </tbody>
+  </table>
+  <p>Todos os quatro casos têm versões espelhadas (para quando <code>x</code> é filho direito em vez de esquerdo).</p>
+
+  <h4>Mensagens de feedback da remoção</h4>
+  <table>
+    <thead><tr><th>Situação</th><th>Mensagem exibida</th></tr></thead>
+    <tbody>
+      <tr><td>Árvore vazia (verificado em <code>main.c</code>)</td><td><code>A árvore está vazia.</code></td></tr>
+      <tr><td>ID não encontrado</td><td><code>Nó [X] não encontrado na ARN.</code></td></tr>
+      <tr><td>Removido com êxito</td><td><code>Nó [X] removido com sucesso da ARN.</code></td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h3>Visualização gráfica (<code>visualizarARNDot</code>)</h3>
+  <p>Gera <code>arvore_rn.dot</code> e abre <code>arvore_rn.png</code>, seguindo o mesmo fluxo da ABB:</p>
+<pre><code>árvore em memória  →  arvore_rn.dot  →  dot -Tpng  →  arvore_rn.png  →  start arvore_rn.png</code></pre>
+
+  <h4>Diferencial em relação à ABB: cores e rótulos de posição</h4>
+  <p>Cada nó é renderizado com a cor correspondente à sua propriedade na ARN:</p>
+<pre><code>digraph ARN {
+    node [shape=circle fontname="Helvetica"];
+    graph [ordering="out"];
+    edge [fontsize=10];
+    25 [label="[25]\nA" style=filled fillcolor=black fontcolor=white];
+    12 [label="[12]\nB" style=filled fillcolor=red   fontcolor=white];
+    37 [label="[37]\nC" style=filled fillcolor=black fontcolor=white];
+    25 -> 12 [label="E"];
+    25 -> 37 [label="D"];
+}</code></pre>
+  <ul>
+    <li><code>fillcolor=black</code> + <code>fontcolor=white</code> → nó <span class="node-black">PRETO</span></li>
+    <li><code>fillcolor=red</code> + <code>fontcolor=white</code> → nó <span class="node-red">VERMELHO</span></li>
+    <li>Arestas rotuladas com <code>E</code> (filho <strong>E</strong>squerdo) e <code>D</code> (filho <strong>D</strong>ireito)</li>
+  </ul>
+
+  <h4>Correção de bug: caracteres especiais no formato DOT</h4>
+  <p>Foi identificado que nomes de nós contendo aspas duplas <code>"</code> quebravam o arquivo <code>.dot</code>,
+  causando o erro:</p>
+<pre><code>Error: arvore_rn.dot: syntax error in line N near '"'</code></pre>
+  <p>A causa: o formato DOT usa <code>"</code> para delimitar strings. Se o <code>nome</code> do nó contiver
+  <code>"</code>, a string é fechada prematuramente e o parser falha. A solução foi criar a função auxiliar
+  <code>escreverTextoSeguro</code> em <code>ArvRN.c</code> (e também em <code>ArvBin.c</code>):</p>
+<pre><code>static void escreverTextoSeguro(FILE *f, const char *str) {
+    for (; *str; str++) {
+        if (*str == '"' || *str == '\\') fputc('\\', f);
+        fputc(*str, f);
+    }
+}</code></pre>
+  <p>Ela percorre o <code>nome</code> caractere a caractere e insere um <code>\</code> de escape antes de qualquer
+  <code>"</code> ou <code>\</code>. O resultado:</p>
+<pre><code>nome digitado: "A"   →   label="[1]\n\"A\""   (correto para o DOT)</code></pre>
+
+  <hr>
+
+  <h3>Alterações em <code>main.c</code></h3>
+
+  <h4>Enum <code>GRAFOMETODO</code> — novo valor <code>ARN</code></h4>
+<pre><code>typedef enum {INVALIDO, GRAFICA, LISTA, MATRIZ, ABB, ARN} GRAFOMETODO;</code></pre>
+
+  <h4>Variável global da raiz</h4>
+<pre><code>NoARN *raiz_arn = NULL;</code></pre>
+  <p>Inicializada com <code>inicializarARN(&amp;raiz_arn)</code> ao selecionar a opção 5 no menu inicial.</p>
+
+  <h4>Menu inicial — nova opção [5]</h4>
+<pre><code>[1] Grafos com representação gráfica
+[2] Grafo com lista de adjacência
+[3] Grafo com matriz de adjacência
+[4] Árvore binária de busca (ABB)
+[5] Árvore rubro negra (ARN)        &lt;-- novo</code></pre>
+  <p>Ao selecionar <code>[5]</code>, as perguntas de "ponderado" e "dirigido" são puladas — não se aplicam a árvores.</p>
+
+  <h4>Submenu da ARN</h4>
+<pre><code>=== Árvore Rubro-Negra ===
+[1] Inserir valor
+[2] Remover valor
+[3] Ver ARN graficamente
+[4] Inserir dados dummies
+[0] SAIR</code></pre>
+
+  <h4>Funções wrapper em <code>main.c</code></h4>
+  <ul>
+    <li><code>arn_inserir()</code> — lê id e nome, chama <code>inserirARN</code></li>
+    <li><code>arn_remover()</code> — verifica árvore vazia, lê id, chama <code>removerARN</code></li>
+    <li><code>arn_visualizar()</code> — chama <code>visualizarARNDot</code></li>
+    <li><code>arn_inserir_dummies()</code> — inserção de dados pré-definidos (ver Atividade 2)</li>
+  </ul>
+
+  <hr>
+
+  <h3>Resumo das complexidades da ARN</h3>
+  <table>
+    <thead><tr><th>Operação</th><th>Complexidade</th></tr></thead>
+    <tbody>
+      <tr><td>Inserção</td><td>O(log n) — sempre</td></tr>
+      <tr><td>Remoção</td><td>O(log n) — sempre</td></tr>
+      <tr><td>Busca</td><td>O(log n) — sempre</td></tr>
+      <tr><td>Rotações por operação</td><td>O(1) amortizado</td></tr>
+      <tr><td>Espaço extra por nó</td><td>O(1) — apenas o campo <code>cor</code> e o ponteiro <code>pai</code></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════ ATIVIDADE 2 -->
+  <h2><span class="activity-badge">Atividade 2</span> Inserção de dados dummies</h2>
+
+  <h3>O que foi feito</h3>
+  <p>Adicionada a opção <strong>"Inserir dados dummies"</strong> em todos os três submenus: Grafos, ABB e ARN. Ao
+  selecionar essa opção, 15 valores pré-definidos são inseridos automaticamente, permitindo testar a visualização e
+  as operações sem precisar digitar dados manualmente.</p>
+
+  <hr>
+
+  <h3>Dados pré-definidos compartilhados</h3>
+  <p>Declarados como constantes globais em <code>main.c</code> para serem reutilizados pelas três funções:</p>
+<pre><code>#define DUMMY_N 15
+
+/* 15 chaves espalhadas entre 1 e 50 */
+static const int DUMMY_IDS[DUMMY_N] = {
+    25, 12, 37,  6, 18,
+    30, 44,  3,  9, 15,
+    22, 28, 35, 41, 48
+};</code></pre>
+  <p>Os IDs foram escolhidos propositalmente: inserir <code>25</code> primeiro (valor central) e depois valores nos
+  dois lados produz uma <strong>ABB/ARN visualmente equilibrada</strong>, sem degeneração em lista.</p>
+  <p>Os nomes são gerados dinamicamente com <code>'A' + i</code>, produzindo <code>A, B, C, …, O</code>:</p>
+<pre><code>char nome[4];
+nome[0] = 'A' + i;  // i = 0..14  →  A B C D E F G H I J K L M N O
+nome[1] = '\0';</code></pre>
+
+  <hr>
+
+  <h3><code>abb_inserir_dummies</code> — Árvore Binária de Busca</h3>
+  <p>Acessível via opção <code>[11]</code> do submenu da ABB.</p>
+<pre><code>void abb_inserir_dummies(){
+    for(int i = 0; i &lt; DUMMY_N; i++){
+        char nome[4];
+        nome[0] = 'A' + i; nome[1] = '\0';
+        raiz_abb = inserir(raiz_abb, DUMMY_IDS[i], nome);
+    }
+    printf("15 valores (A–O, ids 1–50) inseridos com sucesso na ABB.\n");
+}</code></pre>
+  <p>Chama a mesma função <code>inserir</code> usada pela inserção manual. A raiz pode mudar (se a árvore estava
+  vazia) e é sempre reatribuída com o retorno de <code>inserir</code>.</p>
+
+  <hr>
+
+  <h3><code>arn_inserir_dummies</code> — Árvore Rubro-Negra</h3>
+  <p>Acessível via opção <code>[4]</code> do submenu da ARN.</p>
+<pre><code>void arn_inserir_dummies(){
+    for(int i = 0; i &lt; DUMMY_N; i++){
+        char nome[4];
+        nome[0] = 'A' + i; nome[1] = '\0';
+        inserirARN(&amp;raiz_arn, DUMMY_IDS[i], nome);
+    }
+    printf("15 valores (A–O, ids 1–50) inseridos com sucesso na ARN.\n");
+}</code></pre>
+  <p>Usa os <strong>mesmos 15 IDs</strong> da ABB, permitindo comparar visualmente como as duas estruturas organizam
+  os mesmos dados. Na ARN, após cada inserção o <code>fixupInserir</code> pode fazer rotações e recolorações — o
+  resultado final terá uma forma diferente da ABB para os mesmos dados.</p>
+
+  <hr>
+
+  <h3><code>grafo_inserir_dummies</code> — Grafos (GRAFICA / LISTA / MATRIZ)</h3>
+  <p>Acessível via opção <code>[7]</code> do submenu de grafos.</p>
+  <p>Para grafos, a lógica é diferente: em vez de usar <code>DUMMY_IDS</code> como chaves de comparação, o programa
+  insere 15 <strong>vértices</strong> com IDs sequenciais (controlados por <code>UNICID</code>) e depois adiciona
+  arestas entre eles.</p>
+<pre><code>static const int DUMMY_ARESTAS[19][2] = {
+    {0,1},{1,2},{2,3},{3,4},{4,5},{5,6},{6,7},{7,8},{8,9},{9,10},
+    {10,11},{11,12},{12,13},{13,14},      // caminho principal (14 arestas)
+    {0,5},{2,7},{4,9},{6,11},{8,13}       // arestas cruzadas  (5 arestas)
+};</code></pre>
+  <p>Os pares são <strong>índices</strong> (0 a 14) que referenciam posições no vetor <code>ids[]</code> local, não
+  os IDs diretos — pois o <code>UNICID</code> pode ter qualquer valor inicial.</p>
+<pre><code>void grafo_inserir_dummies(){
+    int ids[DUMMY_N];
+    for(int i = 0; i &lt; DUMMY_N; i++){
+        ids[i] = UNICID++;                // registra o ID real atribuído
+        char nome[4]; nome[0]='A'+i; nome[1]='\0';
+        adicionarVertice*(ids[i], nome);  // chama a função do método ativo
+    }
+    for(int i = 0; i &lt; 19; i++){
+        int a = ids[DUMMY_ARESTAS[i][0]];
+        int b = ids[DUMMY_ARESTAS[i][1]];
+        float p = (QUALPONDERACAO == EH_PONDERADO) ? (float)(i+1) : 0.0f;
+        adicionarAresta*(a, b, p);        // chama a função do método ativo
+    }
+    printf("15 vértices (A–O) e 19 arestas inseridos com sucesso.\n");
+}</code></pre>
+  <ul>
+    <li><strong>14 arestas</strong> formam um caminho conectando todos os 15 vértices em sequência (A→B→…→O).</li>
+    <li><strong>5 arestas cruzadas</strong> criam ciclos, tornando o grafo mais interessante para visualização.</li>
+    <li>Para grafos <strong>ponderados</strong>, os pesos são <code>1.0, 2.0, …, 19.0</code> (índice da aresta + 1).</li>
+    <li>Para grafos <strong>não ponderados</strong>, o peso é <code>0.0</code> (ignorado pelas funções de exibição).</li>
+    <li>A função detecta o método ativo (<code>GRAFMET</code>) e chama as funções de <code>Grafica</code>,
+    <code>Lista</code> ou <code>Matriz</code> conforme necessário.</li>
+  </ul>
+
+  <hr>
+
+  <h3>Resumo das opções de menu adicionadas</h3>
+  <table>
+    <thead><tr><th>Submenu</th><th>Opção</th><th>Texto exibido</th></tr></thead>
+    <tbody>
+      <tr><td>Grafos</td><td><code>[7]</code></td><td>Inserir dados dummies</td></tr>
+      <tr><td>ABB</td><td><code>[11]</code></td><td>Inserir dados dummies</td></tr>
+      <tr><td>ARN</td><td><code>[4]</code></td><td>Inserir dados dummies</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════ ATIVIDADE 3 -->
+  <h2><span class="activity-badge">Atividade 3</span> Saída de imagens na pasta <code>images/</code> e ajustes no <code>.gitignore</code></h2>
+
+  <h3>O que foi feito</h3>
+  <p>Todos os arquivos gerados em tempo de execução (<code>.dot</code> e <code>.png</code>) foram redirecionados para
+  a subpasta <code>images/</code>. O <code>.gitignore</code> foi revisado para que os executáveis <code>.exe</code>
+  e a pasta <code>images/</code> sejam rastreados pelo git.</p>
+
+  <hr>
+
+  <h3>Redirecionamento dos arquivos para <code>images/</code></h3>
+  <p>Anteriormente os arquivos <code>.dot</code> e <code>.png</code> eram gerados na raiz do projeto, misturados ao
+  código-fonte. Agora são criados dentro de <code>images/</code>:</p>
+  <table>
+    <thead><tr><th>Arquivo</th><th>Antes</th><th>Depois</th></tr></thead>
+    <tbody>
+      <tr><td>Grafo (<code>IACODES.c</code>)</td><td><code>grafo.dot</code> / <code>grafo.png</code></td><td><code>images/grafo.dot</code> / <code>images/grafo.png</code></td></tr>
+      <tr><td>ABB (<code>ArvBin.c</code>)</td><td><code>arvore.dot</code> / <code>arvore.png</code></td><td><code>images/arvore.dot</code> / <code>images/arvore.png</code></td></tr>
+      <tr><td>ARN (<code>ArvRN.c</code>)</td><td><code>arvore_rn.dot</code> / <code>arvore_rn.png</code></td><td><code>images/arvore_rn.dot</code> / <code>images/arvore_rn.png</code></td></tr>
+    </tbody>
+  </table>
+  <p>A pasta <code>images/</code> é criada automaticamente ao iniciar o programa, antes do menu principal, usando a
+  API do Windows em <code>main.c</code>:</p>
+<pre><code>CreateDirectoryA("images", NULL); /* cria a pasta images/ se ainda não existir */</code></pre>
+  <p><code>CreateDirectoryA</code> retorna erro silenciosamente se a pasta já existir
+  (<code>ERROR_ALREADY_EXISTS</code>), portanto nenhuma verificação adicional é necessária. A função já está
+  disponível porque <code>&lt;windows.h&gt;</code> é incluído no início de <code>main.c</code>.</p>
+
+  <hr>
+
+  <h3>Alterações no <code>.gitignore</code></h3>
+  <p>O <code>.gitignore</code> foi ajustado para que os arquivos gerados pelo projeto sejam versionados normalmente:</p>
+<pre><code># Binários compilados
+*.o
+*.out
+
+#arquivos claude
+CLAUDE.md</code></pre>
+  <table>
+    <thead><tr><th>Entrada</th><th>Situação anterior</th><th>Situação atual</th><th>Motivo</th></tr></thead>
+    <tbody>
+      <tr><td><code>*.exe</code></td><td>Ignorado</td><td><strong>Rastreado</strong></td><td>Permite distribuir o executável compilado pelo repositório</td></tr>
+      <tr><td><code>images/</code></td><td>Ignorado</td><td><strong>Rastreado</strong></td><td>Permite compartilhar as imagens geradas pelo Graphviz</td></tr>
+      <tr><td><code>*.o</code> / <code>*.out</code></td><td>Ignorado</td><td>Ignorado</td><td>Arquivos intermediários de compilação — sem utilidade no repo</td></tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    Estrutura de Dados II — IFFar &nbsp;|&nbsp; Gerado em 27/06/2026
+  </div>
+
+</div>
+</body>
+</html>

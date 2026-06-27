@@ -1,0 +1,34 @@
+digraph ABB {
+    node [shape=circle fontname="Helvetica"];
+    graph [ordering="out"];
+    edge [fontsize=10];
+    25 [label="[25]\nA"];
+    12 [label="[12]\nB"];
+    6 [label="[6]\nD"];
+    3 [label="[3]\nH"];
+    9 [label="[9]\nI"];
+    18 [label="[18]\nE"];
+    15 [label="[15]\nJ"];
+    22 [label="[22]\nK"];
+    37 [label="[37]\nC"];
+    30 [label="[30]\nF"];
+    28 [label="[28]\nL"];
+    35 [label="[35]\nM"];
+    44 [label="[44]\nG"];
+    41 [label="[41]\nN"];
+    48 [label="[48]\nO"];
+    25 -> 12 [label="L"];
+    25 -> 37 [label="R"];
+    12 -> 6 [label="L"];
+    12 -> 18 [label="R"];
+    6 -> 3 [label="L"];
+    6 -> 9 [label="R"];
+    18 -> 15 [label="L"];
+    18 -> 22 [label="R"];
+    37 -> 30 [label="L"];
+    37 -> 44 [label="R"];
+    30 -> 28 [label="L"];
+    30 -> 35 [label="R"];
+    44 -> 41 [label="L"];
+    44 -> 48 [label="R"];
+}

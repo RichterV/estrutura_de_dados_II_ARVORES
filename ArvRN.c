@@ -344,7 +344,7 @@ static void escreverArestasARN(FILE *f, NoARN *no) {
 }
 
 void visualizarARNDot(NoARN *raiz) {
-    FILE *f = fopen("arvore_rn.dot", "w");
+    FILE *f = fopen("images/arvore_rn.dot", "w");
     if (f == NULL) {
         printf("Erro ao criar arquivo arvore_rn.dot.\n");
         return;
@@ -365,14 +365,14 @@ void visualizarARNDot(NoARN *raiz) {
     fprintf(f, "}\n");
     fclose(f);
 
-    if (system("dot -Tpng arvore_rn.dot -o arvore_rn.png") != 0) {
+    if (system("dot -Tpng images/arvore_rn.dot -o images/arvore_rn.png") != 0) {
         printf("Erro: Graphviz não encontrado ou falhou ao gerar a imagem.\n");
         printf("Instale com: winget install graphviz.graphviz\n");
-        printf("O arquivo arvore_rn.dot foi gerado e pode ser visualizado em:\n");
+        printf("O arquivo images/arvore_rn.dot foi gerado e pode ser visualizado em:\n");
         printf("  https://dreampuf.github.io/GraphvizOnline\n");
         return;
     }
 
-    system("start arvore_rn.png");
+    system("start images/arvore_rn.png");
     printf("Árvore Rubro-Negra renderizada com sucesso em arvore_rn.png.\n");
 }

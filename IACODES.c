@@ -44,7 +44,7 @@ void IA_lerTexto(char *variavel, int tamanho, const char *mensagem){
 }
 
 void IA_mostrarGrafoGrafica(GrafoG* raiz[], int quantidade_vertices, int eh_dirigido, int eh_ponderado){
-    FILE *arquivo = fopen("grafo.dot", "w");
+    FILE *arquivo = fopen("images/grafo.dot", "w");
 
     if(arquivo == NULL){
         printf("Erro ao criar arquivo DOT.\n");
@@ -141,15 +141,15 @@ void IA_mostrarGrafoGrafica(GrafoG* raiz[], int quantidade_vertices, int eh_diri
     fclose(arquivo);
 
     // gera PNG
-    if(system("dot -Tpng grafo.dot -o grafo.png") != 0){
+    if(system("dot -Tpng images/grafo.dot -o images/grafo.png") != 0){
         printf("Erro: Graphviz nao encontrado ou falhou ao gerar a imagem.\n");
         printf("Instale com: winget install graphviz.graphviz\n");
-        printf("O arquivo grafo.dot foi gerado e pode ser visualizado em: https://dreampuf.github.io/GraphvizOnline\n");
+        printf("O arquivo images/grafo.dot foi gerado e pode ser visualizado em: https://dreampuf.github.io/GraphvizOnline\n");
         return;
     }
 
     // abre imagem
-    system("start grafo.png");
+    system("start images/grafo.png");
 
     printf("Grafo renderizado com sucesso.\n");
 }

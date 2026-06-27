@@ -60,7 +60,7 @@ static void escreverArestas(FILE *f, NoArvBin *no) {
  * e exibe o link para visualizar o .dot online.
  */
 void visualizarABBDot(NoArvBin *raiz) {
-    FILE *f = fopen("arvore.dot", "w");
+    FILE *f = fopen("images/arvore.dot", "w");
     if (f == NULL) {
         printf("Erro ao criar arquivo arvore.dot.\n");
         return;
@@ -83,15 +83,15 @@ void visualizarABBDot(NoArvBin *raiz) {
     fclose(f);
 
     /* chama o Graphviz para converter .dot em .png */
-    if (system("dot -Tpng arvore.dot -o arvore.png") != 0) {
+    if (system("dot -Tpng images/arvore.dot -o images/arvore.png") != 0) {
         printf("Erro: Graphviz não encontrado ou falhou ao gerar a imagem.\n");
         printf("Instale com: winget install graphviz.graphviz\n");
-        printf("O arquivo arvore.dot foi gerado e pode ser visualizado em:\n");
+        printf("O arquivo images/arvore.dot foi gerado e pode ser visualizado em:\n");
         printf("  https://dreampuf.github.io/GraphvizOnline\n");
         return;
     }
 
-    system("start arvore.png"); /* abre a imagem no visualizador padrão do Windows */
+    system("start images/arvore.png"); /* abre a imagem no visualizador padrão do Windows */
     printf("Árvore renderizada com sucesso em arvore.png.\n");
 }
 
